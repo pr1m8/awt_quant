@@ -1,5 +1,8 @@
+from stocks_hstEmployees.views import StockshstemployeesView
+from stocks_hstEmployees.views import StockshstemployeesView
+from stocks_hstEmployees.views import StockshstemployeesView
 """
-URL configuration for DelphiDash project.
+URL configuration for delphi_api project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -18,5 +21,8 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
+    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
+    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
+    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
     path('admin/', admin.site.urls),
 ]
