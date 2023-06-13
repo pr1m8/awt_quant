@@ -82,6 +82,14 @@ DATABASES = {
         "PASSWORD": "Phony-Research8-System", ## This will be obfuscated soon.
         "HOST": "127.0.0.1", ## needs to change in production
         "PORT": "42069",
+    },
+    "finance": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "finance",
+        "USER": "postgres",
+        "PASSWORD": "postgres", ## This will be obfuscated soon.
+        "HOST": "127.0.0.1", ## needs to change in production
+        "PORT": "5432",
     }
 }
 
@@ -130,10 +138,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configures the REST Framework.
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
+
+# Added by Djangautomate
+INSTALLED_APPS.append('stocks_hstEmployees.apps.StocksHstemployeesConfig')
