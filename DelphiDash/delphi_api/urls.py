@@ -1,6 +1,3 @@
-from stocks_hstEmployees.views import StockshstemployeesView
-from stocks_hstEmployees.views import StockshstemployeesView
-from stocks_hstEmployees.views import StockshstemployeesView
 """
 URL configuration for delphi_api project.
 
@@ -20,9 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-urlpatterns = [
-    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
-    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
-    path('api/stocks_hstEmployees/<str:symbol>/', StockshstemployeesView.as_view(), name='stocks_hstEmployees'),
+urlpatterns = [ 
     path('admin/', admin.site.urls),
 ]
