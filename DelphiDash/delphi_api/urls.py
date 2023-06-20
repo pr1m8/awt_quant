@@ -1,9 +1,8 @@
 from endpoints.countries_marketRiskPremium.views import CountriesMarketRiskPremiumViewSet
-from django.contrib import admin
-from django.urls import path, include
-
 from endpoints.stocks_hstEmployees.views import StocksHstEmployeesViewSet
 
+from django.contrib import admin
+from django.urls import path, include
 
 from rest_framework import routers
 router = routers.DefaultRouter()

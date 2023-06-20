@@ -1,5 +1,4 @@
 from .models import *
-from django.shortcuts import get_object_or_404
 from .serializers import CountriesMarketRiskPremiumSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response

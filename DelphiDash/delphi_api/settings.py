@@ -145,10 +145,7 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 
-
 # Configures the REST Framework.
 # Added by Djangautomate
 INSTALLED_APPS.append('endpoints.stocks_hstEmployees.apps.StocksHstEmployeesConfig')
-
-# Added by Djangautomate
 INSTALLED_APPS.append('endpoints.countries_marketRiskPremium.apps.CountriesMarketRiskPremiumConfig')
