@@ -25,19 +25,22 @@ SECRET_KEY = 'django-insecure-^i*mrgo50xg^hqtxstk%z1o6-9k96mb%%f8qu%+y@ojq0ft^a$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.2.69',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'delphi_api.urls'
@@ -75,15 +79,15 @@ WSGI_APPLICATION = 'delphi_api.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "wishingpail",
+    #     "USER": "crank",
+    #     "PASSWORD": "Phony-Research8-System", ## This will be obfuscated soon.
+    #     "HOST": "127.0.0.1", ## needs to change in production
+    #     "PORT": "42069",
+    # },
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "wishingpail",
-        "USER": "crank",
-        "PASSWORD": "Phony-Research8-System", ## This will be obfuscated soon.
-        "HOST": "127.0.0.1", ## needs to change in production
-        "PORT": "42069",
-    },
-    "finance": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "finance",
         "USER": "postgres",
@@ -136,8 +140,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Configures the REST Framework.
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:5173'
+]
 
+
+
+# Configures the REST Framework.
+# Added by Djangautomate
+INSTALLED_APPS.append('endpoints.stocks_hstEmployees.apps.StocksHstEmployeesConfig')
 
 # Added by Djangautomate
-INSTALLED_APPS.append('stocks_hstEmployees.apps.StocksHstemployeesConfig')
+INSTALLED_APPS.append('endpoints.countries_marketRiskPremium.apps.CountriesMarketRiskPremiumConfig')
