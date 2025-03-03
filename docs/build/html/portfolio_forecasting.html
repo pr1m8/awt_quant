@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Forecasting Documentation &mdash; awt_quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            awt_quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="macro_forecasting.html">Macro Data Forecasting and Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="garch_forecasting.html">GARCH Model Optimization &amp; Volatility Forecasting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_factor_analysis.html">Multi-Factor Analysis (MFA) Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">awt_quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Portfolio Forecasting Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/portfolio_forecasting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="portfolio-forecasting-documentation">
+<span id="portfolio-forecast"></span><h1>Portfolio Forecasting Documentation<a class="headerlink" href="#portfolio-forecasting-documentation" title="Link to this heading"></a></h1>
+<p>Portfolio Forecasting is a module designed for <strong>multi-asset Monte Carlo simulations</strong>, integrating <strong>stochastic processes</strong> and <strong>GARCH modeling</strong> for advanced financial forecasting.</p>
+<p>This module enables:</p>
+<ul class="simple">
+<li><p><strong>Multi-Asset Price Forecasting</strong> using various stochastic models.</p></li>
+<li><p><strong>Portfolio Risk Analysis</strong> with volatility estimation and simulations.</p></li>
+<li><p><strong>Integration of Factor-Based and Copula Models</strong> for enhanced prediction accuracy.</p></li>
+</ul>
+<hr class="docutils" />
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p></li>
+<li><p><a class="reference internal" href="#module-structure" id="id2">Module Structure</a></p></li>
+<li><p><a class="reference internal" href="#portfolioforecast-class" id="id3">PortfolioForecast Class</a></p></li>
+<li><p><a class="reference internal" href="#usage" id="id4">Usage</a></p></li>
+<li><p><a class="reference internal" href="#stress-testing-sensitivity-analysis" id="id5">Stress Testing &amp; Sensitivity Analysis</a></p></li>
+<li><p><a class="reference internal" href="#visualization" id="id6">Visualization</a></p></li>
+<li><p><a class="reference internal" href="#future-enhancements" id="id7">Future Enhancements</a></p></li>
+<li><p><a class="reference internal" href="#conclusion" id="id8">Conclusion</a></p></li>
+</ul>
+</nav>
+<hr class="docutils" />
+<section id="overview">
+<span id="portfolio-forecast-overview"></span><h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The <cite>PortfolioForecast</cite> class extends <cite>SPDEMCSimulator</cite>, supporting <strong>multi-asset simulations</strong> by incorporating dependencies between assets and their volatilities.</p>
+<p><strong>Key Features:</strong>
+- Supports <strong>Heston, Geometric Brownian Motion (GBM), Ornstein-Uhlenbeck (OU), and CIR</strong> models.
+- Integrates <strong>copula-based dependence structures</strong> between assets.
+- Uses <strong>Monte Carlo simulations</strong> for price forecasting.
+- Implements <strong>GARCH-based volatility forecasting</strong> for improved accuracy.
+- Supports <strong>stress testing and sensitivity analysis</strong> to assess risk.</p>
+<hr class="docutils" />
+</section>
+<section id="module-structure">
+<span id="portfolio-forecast-structure"></span><h2><a class="toc-backref" href="#id2" role="doc-backlink">Module Structure</a><a class="headerlink" href="#module-structure" title="Link to this heading"></a></h2>
+<p>The <cite>portfolio_forecast</cite> module consists of the following key components:</p>
+<ul class="simple">
+<li><p><strong>PortfolioForecast</strong>: Core class for multi-asset Monte Carlo simulations.</p></li>
+<li><p><strong>Copula Simulation</strong>: Uses <cite>GaussianMultivariate</cite> copula to model asset dependencies.</p></li>
+<li><p><strong>Factor-Based Forecasting</strong>: Integrates multi-factor models for enhanced predictions.</p></li>
+<li><p><strong>Volatility Modeling</strong>: Utilizes GARCH models to improve stochastic forecasts.</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="portfolioforecast-class">
+<span id="portfolio-forecast-class"></span><h2><a class="toc-backref" href="#id3" role="doc-backlink">PortfolioForecast Class</a><a class="headerlink" href="#portfolioforecast-class" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+</section>
+<section id="usage">
+<span id="portfolio-forecast-usage"></span><h2><a class="toc-backref" href="#id4" role="doc-backlink">Usage</a><a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>Below is an example demonstrating how to use <cite>PortfolioForecast</cite> to simulate a multi-asset portfolio:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.forecast.stochastic.portfolio</span><span class="w"> </span><span class="kn">import</span> <span class="n">PortfolioForecast</span>
+
+<span class="n">portfolio_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;symbol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="s1">&#39;MSFT&#39;</span><span class="p">,</span> <span class="s1">&#39;GOOGL&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+    <span class="s1">&#39;position&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Long&#39;</span><span class="p">,</span> <span class="s1">&#39;Short&#39;</span><span class="p">,</span> <span class="s1">&#39;Long&#39;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">PortfolioForecast</span><span class="p">(</span>
+    <span class="n">portfolio</span><span class="o">=</span><span class="n">portfolio_data</span><span class="p">,</span>
+    <span class="n">equation</span><span class="o">=</span><span class="s1">&#39;Heston&#39;</span><span class="p">,</span>
+    <span class="n">train_test_split</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2022-01-01&#39;</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">num_paths</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">plot_vol</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_sim</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">simulator</span><span class="o">.</span><span class="n">forecast</span><span class="p">()</span>
+<span class="n">simulator</span><span class="o">.</span><span class="n">plot_forecast</span><span class="p">()</span>
+<span class="n">simulator</span><span class="o">.</span><span class="n">backtest</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="stress-testing-sensitivity-analysis">
+<span id="portfolio-forecast-stress-tests"></span><h2><a class="toc-backref" href="#id5" role="doc-backlink">Stress Testing &amp; Sensitivity Analysis</a><a class="headerlink" href="#stress-testing-sensitivity-analysis" title="Link to this heading"></a></h2>
+<p>The <cite>PortfolioForecast</cite> class includes built-in methods for stress testing and sensitivity analysis:</p>
+<ul class="simple">
+<li><p><strong>Noise Injection Analysis</strong></p></li>
+<li><p><strong>Extreme Value Testing</strong></p></li>
+<li><p><strong>Feature Importance Analysis</strong></p></li>
+<li><p><strong>Global Economic Downturn Simulations</strong></p></li>
+<li><p><strong>Inflation Shock Modeling</strong></p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.forecast.stochastic.portfolio</span><span class="w"> </span><span class="kn">import</span> <span class="n">PortfolioForecast</span>
+
+<span class="n">stress_results</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run_stress_tests</span><span class="p">()</span>
+<span class="n">sensitivity_results</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run_sensitivity_analysis</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="visualization">
+<span id="portfolio-forecast-visualization"></span><h2><a class="toc-backref" href="#id6" role="doc-backlink">Visualization</a><a class="headerlink" href="#visualization" title="Link to this heading"></a></h2>
+<p><cite>PortfolioForecast</cite> provides advanced visualization tools using <cite>plotly</cite> and <cite>matplotlib</cite>.</p>
+<ul class="simple">
+<li><p><strong>Quantile Forecast Plots</strong></p></li>
+<li><p><strong>Conditional Volatility Plots</strong></p></li>
+<li><p><strong>Correlation Heatmaps</strong></p></li>
+<li><p><strong>Factor Analysis Charts</strong></p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">simulator</span><span class="o">.</span><span class="n">plot_forecast</span><span class="p">()</span>
+<span class="n">simulator</span><span class="o">.</span><span class="n">plot_factor_heatmap</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="future-enhancements">
+<span id="portfolio-forecast-future"></span><h2><a class="toc-backref" href="#id7" role="doc-backlink">Future Enhancements</a><a class="headerlink" href="#future-enhancements" title="Link to this heading"></a></h2>
+<p>Planned enhancements include:</p>
+<ul class="simple">
+<li><p><strong>Enhanced Copula Models</strong> (e.g., Student’s t, Vine Copulas)</p></li>
+<li><p><strong>Deep Learning Integrations</strong> for factor forecasting</p></li>
+<li><p><strong>Live Market Data Integration</strong></p></li>
+<li><p><strong>Scenario-Based Portfolio Stress Testing</strong></p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="conclusion">
+<span id="portfolio-forecast-conclusion"></span><h2><a class="toc-backref" href="#id8" role="doc-backlink">Conclusion</a><a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>The <cite>PortfolioForecast</cite> module is a powerful tool for simulating <strong>multi-asset portfolios</strong> using <strong>stochastic PDEs</strong>, <strong>copulas</strong>, and <strong>volatility models</strong>. It enables risk analysis, stress testing, and enhanced forecasting, making it ideal for financial research and trading strategies.</p>
+<p>For more details, visit the <strong>[AWT_MF Documentation](../index.rst)</strong>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

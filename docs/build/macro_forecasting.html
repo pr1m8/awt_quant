@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Macro Data Forecasting and Visualization &mdash; awt_quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="GARCH Model Optimization &amp; Volatility Forecasting" href="garch_forecasting.html" />
+    <link rel="prev" title="AWT Quant Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            awt_quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Macro Data Forecasting and Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">Functions:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-macrodataforecasting">Class: MacroDataForecasting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-functions">Additional Functions:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-api-forecast">Example API Forecast:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="garch_forecasting.html">GARCH Model Optimization &amp; Volatility Forecasting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_factor_analysis.html">Multi-Factor Analysis (MFA) Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">awt_quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Macro Data Forecasting and Visualization</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/macro_forecasting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="macro-data-forecasting-and-visualization">
+<h1>Macro Data Forecasting and Visualization<a class="headerlink" href="#macro-data-forecasting-and-visualization" title="Link to this heading"></a></h1>
+<p>This module provides functionality for forecasting macroeconomic time series data using <strong>AutoTS</strong> and <strong>TimeGPT</strong>.
+It includes <strong>preprocessing utilities</strong>, <strong>automated forecasting methods</strong>, and <strong>visualization tools</strong>.</p>
+<section id="features">
+<h2>Features:<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Preprocessing</strong>: Handling missing values, normalizing data, and formatting time series.</p></li>
+<li><p><strong>Forecasting</strong>: AutoTS-based automated forecasting and TimeGPT API for macroeconomic time series.</p></li>
+<li><p><strong>Visualization</strong>: Interactive plotting with Plotly.</p></li>
+</ul>
+</section>
+<section id="dependencies">
+<h2>Dependencies:<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><cite>autots</cite></p></li>
+<li><p><cite>pandas</cite></p></li>
+<li><p><cite>plotly</cite></p></li>
+<li><p><cite>nixtlats</cite></p></li>
+<li><p><cite>dotenv</cite></p></li>
+<li><p><cite>numpy</cite></p></li>
+</ul>
+</section>
+<section id="functions">
+<h2>Functions:<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>MacroDataForecasting</strong>
+- A class for managing macroeconomic time series data and forecasting.</p></li>
+<li><p><strong>convert_numpy_floats(obj)</strong>
+- Converts NumPy <cite>float64</cite> values to native Python floats.</p></li>
+<li><p><strong>api_forecast(series_id)</strong>
+- Fetches macroeconomic data and forecasts future values using <strong>TimeGPT</strong>.</p></li>
+</ol>
+</section>
+<section id="usage">
+<h2>Usage:<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>Example of how to use <strong>MacroDataForecasting</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.data_fetch.macro</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_macro</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.forecast.macro_forecast</span><span class="w"> </span><span class="kn">import</span> <span class="n">MacroDataForecasting</span>
+
+<span class="c1"># Fetch macroeconomic data (example: GDP)</span>
+<span class="n">time_series_data</span><span class="p">,</span> <span class="n">meta_data</span> <span class="o">=</span> <span class="n">get_macro</span><span class="p">(</span><span class="s2">&quot;GDP&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialize forecasting object</span>
+<span class="n">forecasting</span> <span class="o">=</span> <span class="n">MacroDataForecasting</span><span class="p">(</span><span class="n">time_series_data</span><span class="p">)</span>
+
+<span class="c1"># Execute forecasts</span>
+<span class="n">forecast_results</span> <span class="o">=</span> <span class="n">forecasting</span><span class="o">.</span><span class="n">execute_forecasts</span><span class="p">()</span>
+
+<span class="c1"># Access forecasted values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">forecast_results</span><span class="p">[</span><span class="s1">&#39;forecast&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="class-macrodataforecasting">
+<h2>Class: MacroDataForecasting<a class="headerlink" href="#class-macrodataforecasting" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MacroDataForecasting</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class for forecasting macroeconomic time series data using AutoTS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_series</span><span class="p">,</span> <span class="n">meta_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes the MacroDataForecasting class.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        time_series (pd.DataFrame): The macroeconomic time series data.</span>
+<span class="sd">        meta_data (dict, optional): Metadata related to the time series.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="methods">
+<h2>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>preprocess_data(method=’average’, normalize=False, return_type=None, na_method=’drop’)</strong></dt><dd><ul class="simple">
+<li><p>Handles missing values and formats time series data.</p></li>
+<li><p>Methods include:
+- <cite>drop</cite>: Remove missing values.
+- <cite>ffill</cite>: Forward-fill missing values.
+- <cite>interpolate</cite>: Interpolate missing values.</p></li>
+</ul>
+</dd>
+<dt><strong>forecast_with_autots(forecast_length=30, frequency=’infer’, prediction_interval=0.9, model_list=’superfast’, …)</strong></dt><dd><ul class="simple">
+<li><p>Runs <strong>AutoTS</strong> to generate time series forecasts.</p></li>
+<li><p>Supports different model and transformation options.</p></li>
+</ul>
+</dd>
+<dt><strong>execute_forecasts(na_method=’drop’)</strong></dt><dd><ul class="simple">
+<li><p>Executes the full pipeline of preprocessing and forecasting.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="additional-functions">
+<h2>Additional Functions:<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>convert_numpy_floats(obj)</strong></dt><dd><ul class="simple">
+<li><p>Recursively converts NumPy float64 values to native Python floats.</p></li>
+</ul>
+</dd>
+<dt><strong>api_forecast(series_id)</strong></dt><dd><ul class="simple">
+<li><p>Uses <strong>TimeGPT</strong> API to forecast macroeconomic time series data.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="example-api-forecast">
+<h2>Example API Forecast:<a class="headerlink" href="#example-api-forecast" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.forecast.macro_forecast</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_forecast</span>
+
+<span class="n">forecast_data</span> <span class="o">=</span> <span class="n">api_forecast</span><span class="p">(</span><span class="s2">&quot;GDP&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">forecast_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This module leverages over <strong>80,000+</strong> FRED macroeconomic time series datasets and provides advanced forecasting tools.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="AWT Quant Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="garch_forecasting.html" class="btn btn-neutral float-right" title="GARCH Model Optimization &amp; Volatility Forecasting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>) &mdash; awt_quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            awt_quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="macro_forecasting.html">Macro Data Forecasting and Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="garch_forecasting.html">GARCH Model Optimization &amp; Volatility Forecasting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_factor_analysis.html">Multi-Factor Analysis (MFA) Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">awt_quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stochastic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p># <strong>Stochastic Partial Differential Equation (PDE) Forecasting</strong></p>
+<p>## <strong>Overview</strong>
+This module implements <strong>stochastic differential equations (SDEs) and PDE-based models</strong> for forecasting <strong>financial time series, volatility, and option pricing</strong>. These models extend standard time-series forecasting by incorporating <strong>stochastic volatility, mean reversion, and random noise components</strong>.</p>
+<p>### <strong>Features</strong>
+- ✅ <strong>GARCH-based volatility forecasting</strong>
+- ✅ <strong>Heston model for stochastic volatility</strong>
+- ✅ <strong>Cox-Ingersoll-Ross (CIR) mean-reverting volatility</strong>
+- ✅ <strong>Ornstein-Uhlenbeck (OU) process for interest rates &amp; price modeling</strong>
+- ✅ <strong>Monte Carlo simulation for path forecasting</strong>
+- ✅ <strong>Conditional volatility forecasting using GARCH &amp; MLE optimization</strong>
+- ✅ <strong>Support for asset price simulation, option pricing, and risk estimation</strong></p>
+<p>—</p>
+<p>## <strong>Module Structure</strong>
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">stochastic_forecast/</span>
+<span class="pre">│──</span> <span class="pre">__init__.py</span>
+<span class="pre">│──</span> <span class="pre">pde_forecast.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">SPDEMCSimulator:</span> <span class="pre">PDE-based</span> <span class="pre">forecasting</span> <span class="pre">model</span>
+<span class="pre">│──</span> <span class="pre">portfolio_forecast.py</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Monte</span> <span class="pre">Carlo</span> <span class="pre">simulation</span> <span class="pre">for</span> <span class="pre">portfolio</span> <span class="pre">forecasting</span>
+<span class="pre">│──</span> <span class="pre">stochastic_models.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Core</span> <span class="pre">SDE-based</span> <span class="pre">models</span> <span class="pre">(Heston,</span> <span class="pre">CIR,</span> <span class="pre">GBM,</span> <span class="pre">OU)</span>
+<span class="pre">│──</span> <span class="pre">stochastic_likelihoods.py</span>&#160;&#160; <span class="pre">#</span> <span class="pre">Likelihood</span> <span class="pre">estimation</span> <span class="pre">for</span> <span class="pre">model</span> <span class="pre">fitting</span>
+<span class="pre">│──</span> <span class="pre">run_simulations.py</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Runs</span> <span class="pre">multiple</span> <span class="pre">simulations</span> <span class="pre">for</span> <span class="pre">comparison</span>
+<span class="pre">`</span></code></p>
+<p>—</p>
+<p>## <strong>Key Components</strong>
+### <strong>1. `pde_forecast.py` (SPDEMCSimulator)</strong>
+This file contains the <cite>SPDEMCSimulator</cite> class, which models stock prices using <strong>stochastic PDEs</strong> such as the <strong>Heston, Geometric Brownian Motion (GBM), CIR, and Ornstein-Uhlenbeck (OU) processes</strong>.</p>
+<p>#### <strong>How It Works</strong>
+1. <strong>Download stock price data</strong> using Yahoo Finance (<cite>yf_fetch.py</cite>).
+2. <strong>Estimate volatility dynamics</strong> using:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>GARCH model</strong> for conditional volatility estimation.</p></li>
+<li><p><strong>MLE optimization</strong> for CIR/OU parameters.</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p><strong>Simulate stochastic processes</strong> for stock prices.</p></li>
+<li><p><strong>Monte Carlo simulation</strong> to generate future price paths.</p></li>
+<li><p><strong>Plot forecasts</strong> using quantiles and confidence intervals.</p></li>
+</ol>
+<p>#### <strong>Available Models</strong>
+| Model | Equation | Use Case |
+<a href="#id38"><span class="problematic" id="id39">|--------|</span></a>———-<a href="#id40"><span class="problematic" id="id41">|----------|</span></a>
+| <strong>GBM (Geometric Brownian Motion)</strong> | ( dS_t = mu S_t dt + sigma S_t dW_t ) | Basic stochastic price movement |
+| <strong>Heston Model</strong> | ( dS_t = mu S_t dt + sqrt{v_t} S_t dW_t^1 ), ( dv_t = kappa (theta - v_t) dt + sigma sqrt{v_t} dW_t^2 ) | Stochastic volatility model |
+| <strong>CIR (Cox-Ingersoll-Ross)</strong> | ( dv_t = kappa (theta - v_t) dt + sigma sqrt{v_t} dW_t ) | Mean-reverting volatility model |
+| <strong>OU (Ornstein-Uhlenbeck)</strong> | ( dX_t = kappa (theta - X_t) dt + sigma dW_t ) | Interest rate modeling |</p>
+<p>#### <strong>Example Usage</strong>
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from awt_quant.forecast.stochastic_forecast import SPDEMCSimulator</p>
+<p># Initialize Simulator
+sim = SPDEMCSimulator(“AAPL”, “Heston”, start_date=”2023-01-01”, end_date=”2023-10-01”, num_paths=1000)</p>
+<p># Download data and estimate parameters
+sim.download_data(train_test_split=0.75)
+sim.simulate(“Heston”)</p>
+<p># Plot simulation results
+sim.plot_simulation(“Heston”)
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<p>—</p>
+<p>### <strong>2. `stochastic_models.py`</strong>
+This module contains <strong>core SDE implementations</strong> used in <cite>SPDEMCSimulator</cite>. It includes functions for <strong>simulating asset paths</strong>, <strong>estimating parameters</strong>, and <strong>generating sample paths</strong>.</p>
+<p>#### <strong>Functions</strong>
+- <cite>simulate_gbm(S0, mu, sigma, dt, N, num_paths)</cite>: Simulates <strong>Geometric Brownian Motion (GBM)</strong>.
+- <cite>simulate_heston(S0, v0, mu, kappa, theta, sigma, rho, dt, N, num_paths)</cite>: Simulates <strong>Heston Model</strong>.
+- <cite>simulate_cir(v0, kappa, theta, sigma, dt, N, num_paths)</cite>: Simulates <strong>Cox-Ingersoll-Ross Process</strong>.
+- <cite>simulate_ou(X0, kappa, theta, sigma, dt, N, num_paths)</cite>: Simulates <strong>Ornstein-Uhlenbeck Process</strong>.</p>
+<p>#### <strong>Example Usage</strong>
+<a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>python
+from awt_quant.forecast.stochastic_forecast.stochastic_models import simulate_gbm</p>
+<p># Simulate GBM paths
+gbm_paths = simulate_gbm(S0=100, mu=0.05, sigma=0.2, dt=1/252, N=252, num_paths=1000)
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<p>—</p>
+<p>### <strong>3. `stochastic_likelihoods.py`</strong>
+This module provides <strong>likelihood estimation functions</strong> for stochastic models, allowing parameter estimation using <strong>Maximum Likelihood Estimation (MLE)</strong>.</p>
+<p>#### <strong>Functions</strong>
+- <cite>neg_log_likelihood_ou(params, data)</cite>: Computes <strong>negative log-likelihood</strong> for <strong>Ornstein-Uhlenbeck</strong> process.
+- <cite>neg_log_likelihood_cir(params, data)</cite>: Computes <strong>negative log-likelihood</strong> for <strong>Cox-Ingersoll-Ross</strong> process.
+- <cite>optimize_parameters(series, model)</cite>: <strong>Optimizes parameters</strong> for stochastic volatility models.</p>
+<p>#### <strong>Example Usage</strong>
+<a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>python
+from awt_quant.forecast.stochastic_forecast.stochastic_likelihoods import optimize_parameters</p>
+<p># Optimize CIR parameters for given volatility series
+optimal_params = optimize_parameters(volatility_series, model=”CIR”)
+<a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<p>—</p>
+<p>### <strong>4. `run_simulations.py`</strong>
+Provides a <strong>wrapper function</strong> to run multiple stochastic model simulations and compare results.</p>
+<p>#### <strong>How It Works</strong>
+- Runs <strong>Monte Carlo simulations</strong> for different stochastic models.
+- <strong>Compares</strong> forecast errors for each model.
+- <strong>Plots</strong> forecast results.</p>
+<p>#### <strong>Example Usage</strong>
+<a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a>python
+from awt_quant.forecast.stochastic_forecast import run_stochastic_simulations</p>
+<p>run_stochastic_simulations(ticker=”AAPL”, models=[“GBM”, “Heston”, “CIR”, “OU”], num_paths=1000)
+<a href="#id29"><span class="problematic" id="id30">``</span></a><a href="#id31"><span class="problematic" id="id32">`</span></a></p>
+<p>—</p>
+<p>## <strong>Example: Comparing Different Stochastic Models</strong>
+<a href="#id33"><span class="problematic" id="id34">``</span></a><a href="#id35"><span class="problematic" id="id36">`</span></a>python
+from awt_quant.forecast.stochastic_forecast import run_stochastic_simulations</p>
+<dl class="simple">
+<dt>run_stochastic_simulations(</dt><dd><p>ticker=”AAPL”,
+models=[“GBM”, “Heston”, “CIR”, “OU”],
+num_paths=1000</p>
+</dd>
+</dl>
+<section id="id37">
+<h1>)<a class="headerlink" href="#id37" title="Link to this heading"></a></h1>
+<p>✅ <strong>Output:</strong> A comparison of different stochastic models’ predictions for <strong>AAPL stock price</strong>.</p>
+<p>—</p>
+<p>## <strong>Key Takeaways</strong>
+- 🚀 <strong>Stochastic PDE forecasting</strong> extends traditional time-series forecasting with <strong>stochastic volatility and mean-reversion</strong>.
+- ✅ <strong>Supports multiple models:</strong> GBM, Heston, CIR, and OU.
+- ✅ <strong>Parameter estimation</strong> using MLE and GARCH.
+- ✅ <strong>Monte Carlo simulations</strong> for uncertainty quantification.
+- ✅ <strong>Forecasting &amp; risk modeling</strong> for stocks and options.</p>
+<p>—</p>
+<p>## <strong>Contributors &amp; References</strong>
+- <strong>Python Libraries:</strong> <cite>arch</cite>, <cite>scipy</cite>, <cite>numpy</cite>, <cite>pandas</cite>, <cite>torch</cite>
+- <strong>Author:</strong> [Your Name / Team Name]
+- <strong>License:</strong> MIT License</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

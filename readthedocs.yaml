@@ -1,0 +1,15 @@
+# ReadTheDocs configuration file
+version: 2
+
+sphinx:
+  configuration: docs/source/conf.py
+
+formats:
+  - htmlzip
+  - pdf
+  - epub
+
+python:
+  version: "3.12"
+  install:
+    - requirements: docs/requirements.txt

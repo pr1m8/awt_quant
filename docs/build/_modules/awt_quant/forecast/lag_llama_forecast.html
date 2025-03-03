@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.forecast.lag_llama_forecast &mdash; awt_quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            awt_quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../awt_quant.html">awt_quant package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">awt_quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">awt_quant.forecast.lag_llama_forecast</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for awt_quant.forecast.lag_llama_forecast</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yfinance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">yf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gluonts.dataset.pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">PandasDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lag_llama.gluon.estimator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LagLlamaEstimator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gluonts.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_evaluation_predictions</span><span class="p">,</span> <span class="n">Evaluator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span>
+
+<span class="c1"># Constant for Lag-Llama checkpoint storage</span>
+<span class="n">LAG_LLAMA_CKPT_PATH</span> <span class="o">=</span> <span class="s2">&quot;resources/lag-llama/lag-llama.ckpt&quot;</span>
+
+<div class="viewcode-block" id="get_device">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.get_device">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_device</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the appropriate device for computation.</span>
+
+<span class="sd">    Uses CUDA if available, otherwise falls back to CPU.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        torch.device: The device to use for model computations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fetch_stock_data">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.fetch_stock_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fetch_stock_data</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetches stock price data from Yahoo Finance and formats it for Lag-Llama.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ticker (str): Stock symbol.</span>
+<span class="sd">        start_date (str): Start date in &#39;YYYY-MM-DD&#39; format.</span>
+<span class="sd">        end_date (str): End date in &#39;YYYY-MM-DD&#39; format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        PandasDataset: The dataset formatted for Lag-Llama.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="c1"># Format for Lag-Llama</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Close&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>  <span class="c1"># Set target variable</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;item_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ticker</span>  <span class="c1"># Stock identifier</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;item_id&quot;</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">PandasDataset</span><span class="o">.</span><span class="n">from_long_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="n">item_id</span><span class="o">=</span><span class="s2">&quot;item_id&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_lag_llama_predictions">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.get_lag_llama_predictions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lag_llama_predictions</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">prediction_length</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">context_length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">use_rope_scaling</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs Lag-Llama predictions on a given dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset (PandasDataset): The dataset for forecasting.</span>
+<span class="sd">        prediction_length (int): Forecast horizon.</span>
+<span class="sd">        num_samples (int, optional): Number of Monte Carlo samples per timestep. Defaults to 100.</span>
+<span class="sd">        context_length (int, optional): Context length for model. Defaults to 32.</span>
+<span class="sd">        use_rope_scaling (bool, optional): Whether to use RoPE scaling for extended context. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[list, list]: Forecasts and actual time series.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">get_device</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">LAG_LLAMA_CKPT_PATH</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lag-Llama checkpoint not found at </span><span class="si">{</span><span class="n">LAG_LLAMA_CKPT_PATH</span><span class="si">}</span><span class="s2">. Download it before proceeding.&quot;</span><span class="p">)</span>
+
+    <span class="n">ckpt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">LAG_LLAMA_CKPT_PATH</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">estimator_args</span> <span class="o">=</span> <span class="n">ckpt</span><span class="p">[</span><span class="s2">&quot;hyper_parameters&quot;</span><span class="p">][</span><span class="s2">&quot;model_kwargs&quot;</span><span class="p">]</span>
+
+    <span class="n">rope_scaling_args</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">context_length</span> <span class="o">+</span> <span class="n">prediction_length</span><span class="p">)</span> <span class="o">/</span> <span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;context_length&quot;</span><span class="p">]),</span>
+    <span class="p">}</span>
+
+    <span class="n">estimator</span> <span class="o">=</span> <span class="n">LagLlamaEstimator</span><span class="p">(</span>
+        <span class="n">ckpt_path</span><span class="o">=</span><span class="n">LAG_LLAMA_CKPT_PATH</span><span class="p">,</span>
+        <span class="n">prediction_length</span><span class="o">=</span><span class="n">prediction_length</span><span class="p">,</span>
+        <span class="n">context_length</span><span class="o">=</span><span class="n">context_length</span><span class="p">,</span>
+        <span class="n">input_size</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;input_size&quot;</span><span class="p">],</span>
+        <span class="n">n_layer</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;n_layer&quot;</span><span class="p">],</span>
+        <span class="n">n_embd_per_head</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;n_embd_per_head&quot;</span><span class="p">],</span>
+        <span class="n">n_head</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;n_head&quot;</span><span class="p">],</span>
+        <span class="n">scaling</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;scaling&quot;</span><span class="p">],</span>
+        <span class="n">time_feat</span><span class="o">=</span><span class="n">estimator_args</span><span class="p">[</span><span class="s2">&quot;time_feat&quot;</span><span class="p">],</span>
+        <span class="n">rope_scaling</span><span class="o">=</span><span class="n">rope_scaling_args</span> <span class="k">if</span> <span class="n">use_rope_scaling</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_parallel_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">predictor</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">create_predictor</span><span class="p">(</span>
+        <span class="n">estimator</span><span class="o">.</span><span class="n">create_transformation</span><span class="p">(),</span>
+        <span class="n">estimator</span><span class="o">.</span><span class="n">create_lightning_module</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="n">forecast_it</span><span class="p">,</span> <span class="n">ts_it</span> <span class="o">=</span> <span class="n">make_evaluation_predictions</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+        <span class="n">predictor</span><span class="o">=</span><span class="n">predictor</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">forecast_it</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">ts_it</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_forecasts">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.plot_forecasts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_forecasts</span><span class="p">(</span><span class="n">forecasts</span><span class="p">,</span> <span class="n">tss</span><span class="p">,</span> <span class="n">ticker</span><span class="p">,</span> <span class="n">prediction_length</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots actual stock prices along with forecasted values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        forecasts (list): List of forecasted series.</span>
+<span class="sd">        tss (list): List of actual time series.</span>
+<span class="sd">        ticker (str): Stock ticker symbol.</span>
+<span class="sd">        prediction_length (int): Forecast horizon.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">date_formatter</span> <span class="o">=</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">forecast</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span> <span class="ow">in</span> <span class="n">islice</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">forecasts</span><span class="p">,</span> <span class="n">tss</span><span class="p">)),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="n">prediction_length</span><span class="p">:]</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Actual&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">forecast</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>  <span class="c1"># Forecasted path</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">date_formatter</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lag-Llama Forecast for </span><span class="si">{</span><span class="n">ticker</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="evaluate_forecasts">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.evaluate_forecasts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_forecasts</span><span class="p">(</span><span class="n">forecasts</span><span class="p">,</span> <span class="n">tss</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluates forecasts using GluonTS Evaluator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        forecasts (list): Forecasted time series.</span>
+<span class="sd">        tss (list): Actual time series.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Aggregated evaluation metrics including CRPS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">Evaluator</span><span class="p">()</span>
+    <span class="n">agg_metrics</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">tss</span><span class="p">),</span> <span class="nb">iter</span><span class="p">(</span><span class="n">forecasts</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">agg_metrics</span></div>
+
+
+<div class="viewcode-block" id="backtest">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.backtest">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">backtest</span><span class="p">(</span><span class="n">forecasts</span><span class="p">,</span> <span class="n">actual_series</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes backtest evaluation metrics by comparing forecasts against actual values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        forecasts (list): List of forecasted time series.</span>
+<span class="sd">        actual_series (list): List of actual time series.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Evaluation metrics including mean error and quantiles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">forecast_vals</span> <span class="o">=</span> <span class="n">forecasts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Mean forecast values</span>
+    <span class="n">actual_vals</span> <span class="o">=</span> <span class="n">actual_series</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">forecast_vals</span><span class="p">):]</span>  <span class="c1"># Align with forecast length</span>
+
+    <span class="n">error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">actual_vals</span> <span class="o">-</span> <span class="n">forecast_vals</span><span class="p">)</span> <span class="o">/</span> <span class="n">actual_vals</span>  <span class="c1"># Percent error</span>
+
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
+    <span class="n">quantile_errors</span> <span class="o">=</span> <span class="p">{</span><span class="n">q</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">actual_vals</span> <span class="o">-</span> <span class="n">forecasts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="p">))</span> <span class="o">/</span> <span class="n">actual_vals</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantiles</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;Mean Error&quot;</span><span class="p">:</span> <span class="n">error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;Quantile Errors&quot;</span><span class="p">:</span> <span class="n">quantile_errors</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../awt_quant.forecast.html#awt_quant.forecast.lag_llama_forecast.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs the end-to-end pipeline:</span>
+<span class="sd">    - Fetches stock data</span>
+<span class="sd">    - Runs Lag-Llama forecasting with context length 32</span>
+<span class="sd">    - Evaluates and plots the forecasts</span>
+<span class="sd">    - Performs backtesting</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ticker</span> <span class="o">=</span> <span class="s2">&quot;AAPL&quot;</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="s2">&quot;2023-01-01&quot;</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="s2">&quot;2024-01-01&quot;</span>
+    <span class="n">prediction_length</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">fetch_stock_data</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+
+    <span class="c1"># Forecast with context length 32</span>
+    <span class="n">forecasts_ctx_len_32</span><span class="p">,</span> <span class="n">tss_ctx_len_32</span> <span class="o">=</span> <span class="n">get_lag_llama_predictions</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span> <span class="n">prediction_length</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">context_length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">use_rope_scaling</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="n">plot_forecasts</span><span class="p">(</span><span class="n">forecasts_ctx_len_32</span><span class="p">,</span> <span class="n">tss_ctx_len_32</span><span class="p">,</span> <span class="n">ticker</span><span class="p">,</span> <span class="n">prediction_length</span><span class="p">)</span>
+
+    <span class="c1"># Run Evaluator</span>
+    <span class="n">eval_metrics</span> <span class="o">=</span> <span class="n">evaluate_forecasts</span><span class="p">(</span><span class="n">forecasts_ctx_len_32</span><span class="p">,</span> <span class="n">tss_ctx_len_32</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CRPS:&quot;</span><span class="p">,</span> <span class="n">eval_metrics</span><span class="p">[</span><span class="s2">&quot;mean_wQuantileLoss&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Run Backtest</span>
+    <span class="n">backtest_results</span> <span class="o">=</span> <span class="n">backtest</span><span class="p">(</span><span class="n">forecasts_ctx_len_32</span><span class="p">,</span> <span class="n">tss_ctx_len_32</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Backtest Results:&quot;</span><span class="p">,</span> <span class="n">backtest_results</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
