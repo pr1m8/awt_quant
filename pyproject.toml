@@ -2,10 +2,16 @@
 name = "awt-quant"
 version = "0.1.0"
 description = "Advanced Quantitative Forecasting with SPDE, GARCH, and LLMs"
-authors = ["Your Name <your.email@example.com>"]
+authors = [
+    "William R. Astley <william.astley@algebraicwealth.com>",
+    "Pedro Gaissler",
+    "Nico Jacobs"
+]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "awt_quant"}]
+repository = "https://github.com/pr1m8/awt_quant"
+homepage = "https://github.com/pr1m8/awt_quant"
 
 # Define multiple sources CORRECTLY using Poetry's expected format
 [[tool.poetry.source]]
@@ -28,14 +34,13 @@ yfinance = "^0.2.31"
 torch = { version = "2.6.0+cu118", source = "pytorch_cuda" }
 torchvision = { version = "0.21.0+cu118", source = "pytorch_cuda" }
 torchaudio = { version = "2.6.0+cu118", source = "pytorch_cuda" }
-
-
-
-# Define extra dependencies for CPU and CUDA
-lag-llama = {git = "https://github.com/time-series-foundation-models/lag-llama.git", rev = "update-gluonts"}
+lag-llama = { git = "https://github.com/time-series-foundation-models/lag-llama.git", rev = "update-gluonts" }
 nixtlats = "^0.5.2"
 autots = "^0.6.20"
 python-dotenv = "^1.0.1"
+twine = "^6.1.0"
+toml = "^0.10.2"
+
 [tool.poetry.extras]
 cpu = ["torch", "torchvision", "torchaudio"]
 cuda = ["torch", "torchvision", "torchaudio"]
