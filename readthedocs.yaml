@@ -1,6 +1,5 @@
 # readthedocs.yaml
 version: 2
-
 build:
   os: ubuntu-22.04
   tools:
@@ -9,7 +8,6 @@ build:
 python:
   install:
     - requirements: docs/requirements.txt
-  system_packages: false
 
 sphinx:
   configuration: docs/source/conf.py
