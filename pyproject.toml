@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "Advanced Quantitative Forecasting with SPDE, GARCH, and LLMs"
 authors = [
     "William R. Astley <william.astley@algebraicwealth.com>",
-    "Pedro Gaissler",
-    "Nico Jacobs"
+    "Pedro Gaissler <pedro.gaissler@example.com>",
+    "Nico Jacobs <nico.jacobs@example.com>"
 ]
 license = "MIT"
 readme = "README.md"
@@ -13,7 +13,7 @@ packages = [{include = "awt_quant"}]
 repository = "https://github.com/pr1m8/awt_quant"
 homepage = "https://github.com/pr1m8/awt_quant"
 
-# Define multiple sources CORRECTLY using Poetry's expected format
+# Define multiple sources correctly
 [[tool.poetry.source]]
 name = "pytorch_cpu"
 url = "https://download.pytorch.org/whl/cpu"
@@ -26,20 +26,19 @@ priority = "explicit"
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
-pandas = "^2.2.3"
+pandas = "<2.2.0"
 numpy = "^1.26.0"
-matplotlib = "^3.9.2"
-scipy = "^1.14.1"
+matplotlib = "^3.10.1"
+scipy = "^1.15.2"
 yfinance = "^0.2.31"
 torch = { version = "2.6.0+cu118", source = "pytorch_cuda" }
 torchvision = { version = "0.21.0+cu118", source = "pytorch_cuda" }
 torchaudio = { version = "2.6.0+cu118", source = "pytorch_cuda" }
-lag-llama = { git = "https://github.com/time-series-foundation-models/lag-llama.git", rev = "update-gluonts" }
-nixtlats = "^0.5.2"
-autots = "^0.6.20"
-python-dotenv = "^1.0.1"
-twine = "^6.1.0"
-toml = "^0.10.2"
+
+# Adding Lag-Llama Dependencies (but removed the direct Git reference)
+gluonts = "^0.14.4"
+huggingface_hub = "^0.29.1"
+wandb = "^0.19.7"
 
 [tool.poetry.extras]
 cpu = ["torch", "torchvision", "torchaudio"]

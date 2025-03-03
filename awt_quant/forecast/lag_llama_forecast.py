@@ -10,7 +10,7 @@ import matplotlib.dates as mdates
 from itertools import islice
 
 # Constant for Lag-Llama checkpoint storage
-LAG_LLAMA_CKPT_PATH = "resources/lag-llama/lag-llama.ckpt"
+LAG_LLAMA_CKPT_PATH = "resources/lag_llama/model/lag_llama.ckpt"
 
 def get_device():
     """
