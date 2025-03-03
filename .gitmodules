@@ -1,0 +1,6 @@
+[submodule "portfolio"]
+	path = portfolio
+	url = https://github.com/AlgebraicWealthTechnologies/MultiFactorAnalysis.git
+[submodule "awt_quant/portfolio"]
+	path = awt_quant/portfolio
+	url = https://github.com/AlgebraicWealthTechnologies/MultiFactorAnalysis.git
