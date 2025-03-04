@@ -1,7 +1,8 @@
-awt_quant
-=========
+API Reference
+=============
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
-   awt_quant
+.. autoapi:: awt_quant
+   :noindex:

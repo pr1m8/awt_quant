@@ -1,47 +1,42 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+import os
+import sys
+
+# Add the project root to sys.path
+sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
-project = 'awt_quant'
+project = 'AWT-Quant'
 copyright = '2025, William R. Astley, Pedro Gaissler, Nico Jacobs'
 author = 'William R. Astley, Pedro Gaissler, Nico Jacobs'
 release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-import os
-import sys
-
-# Add project root to path
-sys.path.insert(0, os.path.abspath('../../awt_quant'))
-# -- General configuration ---------------------------------------------------
 extensions = [
-    'sphinx.ext.autodoc',        # Automatically generate documentation from docstrings
-    'sphinx.ext.napoleon',       # Support for NumPy and Google style docstrings
-    'sphinx.ext.viewcode',       # Add links to source code
-    'sphinx.ext.autosummary',    # Create summary tables for modules
-    'sphinx_rtd_theme',          # ReadTheDocs theme
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages',
+    'autoapi.extension',  # Enables automatic API documentation
+    'sphinx.ext.autosummary',
 ]
 
-# Enable auto-generating summaries
-autosummary_generate = True
+# AutoAPI settings (auto-generates docs for all modules)
+autoapi_dirs = ['../../awt_quant']
+autoapi_type = 'python'
+autoapi_generate_api_docs = True
+autoapi_options = [
+    'members',
+    'undoc-members',
+    'show-inheritance',
+    'special-members',
+]
 
-# -- Options for HTML output -------------------------------------------------
-html_theme = "sphinx_rtd_theme"
-
-# -- Autodoc settings --------------------------------------------------------
-autodoc_member_order = 'bysource'  # Show members in the order they appear
-autodoc_default_options = {
-    'members': True,
-    'undoc-members': True,
-    'show-inheritance': True,
-}
-
-# -- Napoleon settings (for docstrings) --------------------------------------
+# Napoleon settings (for better docstring parsing)
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
+
+# -- HTML Output Settings ---------------------------------------------------
+html_theme = 'sphinx_rtd_theme'
+html_static_path = ['_static']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+

@@ -48,4 +48,4 @@ tzdata==2025.1 ; python_version == "3.12"
 urllib3==2.3.0 ; python_version == "3.12"
 wandb==0.19.7 ; python_version == "3.12"
 yfinance==0.2.54 ; python_version == "3.12"
-sphinx-rtd-theme==1.2.1 ; python_version == "3.12"
+sphinx-rtd-theme==1.2.1 ; python_version == "3.12"sphinx-autoapi
