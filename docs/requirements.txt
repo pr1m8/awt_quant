@@ -53,3 +53,6 @@ sphinx-autoapi
 sphinx-autobuild
 plotly
 python-dotenv
+torch==2.2.1+cpu -f https://download.pytorch.org/whl/cpu
+torchvision==0.17.1+cpu -f https://download.pytorch.org/whl/cpu
+torchaudio==2.2.1+cpu -f https://download.pytorch.org/whl/cpu
