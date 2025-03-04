@@ -51,3 +51,4 @@ yfinance==0.2.54 ; python_version == "3.12"
 sphinx-rtd-theme
 sphinx-autoapi
 sphinx-autobuild
+plotly
