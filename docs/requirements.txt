@@ -56,3 +56,4 @@ python-dotenv
 torch 
 torchvision
 torchaudio
+autots
