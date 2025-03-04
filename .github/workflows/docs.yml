@@ -1,15 +1,19 @@
-name: Build Docs
+name: Build and Deploy Docs
 
 on:
   push:
     branches:
-      - main
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  docs:
+  build-docs:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set Up Python
@@ -19,10 +23,19 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          pip install poetry
+          poetry install --with docs
           pip install -r docs/requirements.txt
-          pip install -e .
 
-      - name: Build Docs
+      - name: Build Documentation
         run: |
           cd docs
+          make clean
           make html
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs/build/html

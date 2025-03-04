@@ -3,7 +3,7 @@ import yfinance as yf
 import pandas as pd
 import torch
 from gluonts.dataset.pandas import PandasDataset
-from lag_llama.gluon.estimator import LagLlamaEstimator
+from resources.lag_llama.repo.lag_llama.gluon.estimator import LagLlamaEstimator
 from gluonts.evaluation import make_evaluation_predictions, Evaluator
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates

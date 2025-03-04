@@ -9,7 +9,7 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "awt_quant"}]
+packages = [{ include = "awt_quant" }]
 repository = "https://github.com/pr1m8/awt_quant"
 homepage = "https://github.com/pr1m8/awt_quant"
 
@@ -35,7 +35,7 @@ torch = { version = "2.6.0+cu118", source = "pytorch_cuda" }
 torchvision = { version = "0.21.0+cu118", source = "pytorch_cuda" }
 torchaudio = { version = "2.6.0+cu118", source = "pytorch_cuda" }
 
-# Adding Lag-Llama Dependencies (but removed the direct Git reference)
+# GluonTS Dependency (without brackets)
 gluonts = "^0.14.4"
 huggingface_hub = "^0.29.1"
 wandb = "^0.19.7"
@@ -52,6 +52,7 @@ pytest = "*"
 [tool.poetry.group.docs.dependencies]
 sphinx = "^8.2.3"
 sphinx-rtd-theme = "^3.0.2"
+sphinx-autoapi = "^3.6.0"
 
 [tool.poetry.scripts]
 download-lag-llama = "scripts.download_model:main"
@@ -59,3 +60,4 @@ download-lag-llama = "scripts.download_model:main"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
