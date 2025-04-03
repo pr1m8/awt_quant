@@ -76,14 +76,260 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="awt-quant-forecast-stochastic-portfolio-portfolio-forecast-module">
-<h2>awt_quant.forecast.stochastic.portfolio.portfolio_forecast module<a class="headerlink" href="#awt-quant-forecast-stochastic-portfolio-portfolio-forecast-module" title="Link to this heading"></a></h2>
+<section id="module-awt_quant.forecast.stochastic.portfolio.portfolio_forecast">
+<span id="awt-quant-forecast-stochastic-portfolio-portfolio-forecast-module"></span><h2>awt_quant.forecast.stochastic.portfolio.portfolio_forecast module<a class="headerlink" href="#module-awt_quant.forecast.stochastic.portfolio.portfolio_forecast" title="Link to this heading"></a></h2>
+<p>Portfolio Forecasting using Monte Carlo Simulations &amp; Copula Models.</p>
+<p>This module extends SPDEMCSimulator to forecast a portfolio of assets.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>PortfolioForecast: Forecasts portfolio performance using copula-based simulations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.portfolio_forecast.</span></span><span class="sig-name descname"><span class="pre">PortfolioForecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2022-01-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2022-03-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="awt_quant.forecast.stochastic.html#awt_quant.forecast.stochastic.pde_forecast.SPDEMCSimulator" title="awt_quant.forecast.stochastic.pde_forecast.SPDEMCSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPDEMCSimulator</span></code></a></p>
+<p>Forecasts a portfolio using Monte Carlo simulations and copula models.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">portfolio</span></span></dt>
+<dd><p>Dictionary with stock symbols, positions, and quantities.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">equation</span></span></dt>
+<dd><p>Stochastic Differential Equation model (CIR, GBM, Heston, OU).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">assets</span></span></dt>
+<dd><p>List of SPDEMCSimulator instances for each stock.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">train_data,</span> <span class="pre">test_data</span></span></dt>
+<dd><p>Aggregated portfolio data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.backtest">
+<span class="sig-name descname"><span class="pre">backtest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.backtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.backtest" title="Link to this definition"></a></dt>
+<dd><p>Backtests the forecast and prints ARMA model summaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.copula_simulation">
+<span class="sig-name descname"><span class="pre">copula_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.copula_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.copula_simulation" title="Link to this definition"></a></dt>
+<dd><p>Simulates a copula model to generate dependent return quantiles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copula-simulated quantiles (shape: n_stocks x n_simulations x T)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>torch.Tensor</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.forecast">
+<span class="sig-name descname"><span class="pre">forecast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.forecast" title="Link to this definition"></a></dt>
+<dd><p>Generates portfolio price forecasts based on copula-simulated quantiles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.plot_forecast">
+<span class="sig-name descname"><span class="pre">plot_forecast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.plot_forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_forecast.PortfolioForecast.plot_forecast" title="Link to this definition"></a></dt>
+<dd><p>Plots portfolio simulation with quantile paths and percent errors.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="awt-quant-forecast-stochastic-portfolio-portfolio-simulations-module">
-<h2>awt_quant.forecast.stochastic.portfolio.portfolio_simulations module<a class="headerlink" href="#awt-quant-forecast-stochastic-portfolio-portfolio-simulations-module" title="Link to this heading"></a></h2>
+<section id="module-awt_quant.forecast.stochastic.portfolio.portfolio_simulations">
+<span id="awt-quant-forecast-stochastic-portfolio-portfolio-simulations-module"></span><h2>awt_quant.forecast.stochastic.portfolio.portfolio_simulations module<a class="headerlink" href="#module-awt_quant.forecast.stochastic.portfolio.portfolio_simulations" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_simulations.compare_multiple_portfolio_simulations">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.portfolio_simulations.</span></span><span class="sig-name descname"><span class="pre">compare_multiple_portfolio_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation_classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_dates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecast_periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_splits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_simulations.html#compare_multiple_portfolio_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_simulations.compare_multiple_portfolio_simulations" title="Link to this definition"></a></dt>
+<dd><p>Compares multiple portfolio simulations across different stochastic models and settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>portfolios</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of portfolios with stock symbols and positions.</p></li>
+<li><p><strong>equation_classes</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of stochastic models to test.</p></li>
+<li><p><strong>end_dates</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – End dates for different simulations.</p></li>
+<li><p><strong>forecast_periods</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – Forecasting periods in days.</p></li>
+<li><p><strong>train_test_splits</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – Different train-test split ratios.</p></li>
+<li><p><strong>num_paths</strong> (<em>int</em>) – Number of Monte Carlo paths (default: 1000).</p></li>
+<li><p><strong>num_sim</strong> (<em>int</em>) – Number of simulations for error estimation (default: 100).</p></li>
+<li><p><strong>plot_vol</strong> (<em>bool</em>) – Whether to plot volatility models (default: False).</p></li>
+<li><p><strong>plot_sim</strong> (<em>bool</em>) – Whether to plot individual stock simulations (default: False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe containing forecast errors and summaries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.portfolio_simulations.run_portfolio_simulation">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.portfolio_simulations.</span></span><span class="sig-name descname"><span class="pre">run_portfolio_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_simulations.html#run_portfolio_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.portfolio_simulations.run_portfolio_simulation" title="Link to this definition"></a></dt>
+<dd><p>Runs a single portfolio simulation using the chosen stochastic differential equation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>portfolio</strong> (<em>dict</em>) – Dictionary containing symbols, positions, and quantities.</p></li>
+<li><p><strong>equation</strong> (<em>str</em>) – Chosen stochastic model (CIR, GBM, Heston, OU).</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date for simulation.</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date for simulation.</p></li>
+<li><p><strong>train_test_split</strong> (<em>float</em>) – Ratio of training data.</p></li>
+<li><p><strong>num_paths</strong> (<em>int</em>) – Number of simulation paths (default: 1000).</p></li>
+<li><p><strong>plot_vol</strong> (<em>bool</em>) – Whether to plot volatility models (default: False).</p></li>
+<li><p><strong>plot_sim</strong> (<em>bool</em>) – Whether to plot individual stock simulations (default: False).</p></li>
+<li><p><strong>num_sim</strong> (<em>int</em>) – Number of simulations for error estimation (default: 100).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="module-awt_quant.forecast.stochastic.portfolio">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-awt_quant.forecast.stochastic.portfolio" title="Link to this heading"></a></h2>
+<p>Portfolio Forecasting using Monte Carlo Simulations &amp; Copula Models.</p>
+<p>This module extends SPDEMCSimulator to forecast a portfolio of assets.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>PortfolioForecast: Forecasts portfolio performance using copula-based simulations.</p></li>
+<li><p>run_portfolio_simulation: Runs a single portfolio simulation.</p></li>
+<li><p>compare_multiple_portfolio_simulations: Compares multiple portfolio simulations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.PortfolioForecast">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.</span></span><span class="sig-name descname"><span class="pre">PortfolioForecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2022-01-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2022-03-01'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.PortfolioForecast" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="awt_quant.forecast.stochastic.html#awt_quant.forecast.stochastic.pde_forecast.SPDEMCSimulator" title="awt_quant.forecast.stochastic.pde_forecast.SPDEMCSimulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPDEMCSimulator</span></code></a></p>
+<p>Forecasts a portfolio using Monte Carlo simulations and copula models.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">portfolio</span></span></dt>
+<dd><p>Dictionary with stock symbols, positions, and quantities.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">equation</span></span></dt>
+<dd><p>Stochastic Differential Equation model (CIR, GBM, Heston, OU).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">assets</span></span></dt>
+<dd><p>List of SPDEMCSimulator instances for each stock.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">train_data,</span> <span class="pre">test_data</span></span></dt>
+<dd><p>Aggregated portfolio data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.PortfolioForecast.backtest">
+<span class="sig-name descname"><span class="pre">backtest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.backtest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.PortfolioForecast.backtest" title="Link to this definition"></a></dt>
+<dd><p>Backtests the forecast and prints ARMA model summaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.PortfolioForecast.copula_simulation">
+<span class="sig-name descname"><span class="pre">copula_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.copula_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.PortfolioForecast.copula_simulation" title="Link to this definition"></a></dt>
+<dd><p>Simulates a copula model to generate dependent return quantiles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copula-simulated quantiles (shape: n_stocks x n_simulations x T)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>torch.Tensor</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.PortfolioForecast.forecast">
+<span class="sig-name descname"><span class="pre">forecast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.PortfolioForecast.forecast" title="Link to this definition"></a></dt>
+<dd><p>Generates portfolio price forecasts based on copula-simulated quantiles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.PortfolioForecast.plot_forecast">
+<span class="sig-name descname"><span class="pre">plot_forecast</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_forecast.html#PortfolioForecast.plot_forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.PortfolioForecast.plot_forecast" title="Link to this definition"></a></dt>
+<dd><p>Plots portfolio simulation with quantile paths and percent errors.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.compare_multiple_portfolio_simulations">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.</span></span><span class="sig-name descname"><span class="pre">compare_multiple_portfolio_simulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolios</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation_classes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_dates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forecast_periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_splits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_simulations.html#compare_multiple_portfolio_simulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.compare_multiple_portfolio_simulations" title="Link to this definition"></a></dt>
+<dd><p>Compares multiple portfolio simulations across different stochastic models and settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>portfolios</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of portfolios with stock symbols and positions.</p></li>
+<li><p><strong>equation_classes</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of stochastic models to test.</p></li>
+<li><p><strong>end_dates</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – End dates for different simulations.</p></li>
+<li><p><strong>forecast_periods</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – Forecasting periods in days.</p></li>
+<li><p><strong>train_test_splits</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – Different train-test split ratios.</p></li>
+<li><p><strong>num_paths</strong> (<em>int</em>) – Number of Monte Carlo paths (default: 1000).</p></li>
+<li><p><strong>num_sim</strong> (<em>int</em>) – Number of simulations for error estimation (default: 100).</p></li>
+<li><p><strong>plot_vol</strong> (<em>bool</em>) – Whether to plot volatility models (default: False).</p></li>
+<li><p><strong>plot_sim</strong> (<em>bool</em>) – Whether to plot individual stock simulations (default: False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe containing forecast errors and summaries.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.stochastic.portfolio.run_portfolio_simulation">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.stochastic.portfolio.</span></span><span class="sig-name descname"><span class="pre">run_portfolio_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portfolio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/forecast/stochastic/portfolio/portfolio_simulations.html#run_portfolio_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.stochastic.portfolio.run_portfolio_simulation" title="Link to this definition"></a></dt>
+<dd><p>Runs a single portfolio simulation using the chosen stochastic differential equation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>portfolio</strong> (<em>dict</em>) – Dictionary containing symbols, positions, and quantities.</p></li>
+<li><p><strong>equation</strong> (<em>str</em>) – Chosen stochastic model (CIR, GBM, Heston, OU).</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date for simulation.</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date for simulation.</p></li>
+<li><p><strong>train_test_split</strong> (<em>float</em>) – Ratio of training data.</p></li>
+<li><p><strong>num_paths</strong> (<em>int</em>) – Number of simulation paths (default: 1000).</p></li>
+<li><p><strong>plot_vol</strong> (<em>bool</em>) – Whether to plot volatility models (default: False).</p></li>
+<li><p><strong>plot_sim</strong> (<em>bool</em>) – Whether to plot individual stock simulations (default: False).</p></li>
+<li><p><strong>num_sim</strong> (<em>int</em>) – Number of simulations for error estimation (default: 100).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
