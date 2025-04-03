@@ -9,6 +9,8 @@ project = 'AWT-Quant'
 copyright = '2025, William R. Astley, Pedro Gaissler, Nico Jacobs'
 author = 'William R. Astley, Pedro Gaissler, Nico Jacobs'
 release = '0.1.0'
+import os
+os.environ["NIXTLA_API_KEY"] = "dummy_key"
 
 # -- General configuration ---------------------------------------------------
 extensions = [
