@@ -15,6 +15,7 @@ AWT Quant supports:
 - **Portfolio Optimization** with forecastable constraints and LLM integration
 - **Portfolio & Macro Forecasting** (SPDE + Lag-Llama)
 - **Lag-Llama-based LLM Forecasting** ([Hugging Face Model](https://huggingface.co/time-series-foundation-models/Lag-Llama))
+- **AutoTS Time Series Forecasting** for automated model selection and ensembling
 - **Access to 800k+ macroeconomic time series**
 - **Risk & Performance Reporting** with Tearsheet generation
 - **TimeGPT-style agent pipelines** for simulation, evaluation, and reporting
@@ -55,11 +56,11 @@ sim.plot_simulation()
 
 ---
 
-## 🧐 Forecasting & Macro Intelligence
+## 🤔 Forecasting & Macro Intelligence
 
 AWT Quant features:
 
-- 📊 LLM + Time Series forecasting (Lag-Llama, GARCH, Macro)
+- 📊 LLM + Time Series forecasting (Lag-Llama, GARCH, AutoTS, Macro)
 - 🌍 Access 800k+ global macroeconomic series
 - 🔗 Integrate with FRED, IMF, World Bank, OECD
 - 🧼 Combine scenario assumptions with forward simulations
@@ -88,9 +89,9 @@ model.plot()
 
 ## 📚 Use Cases
 
-### 🧐 Forecasting
+### 🤔 Forecasting
 - Assets, volatility, macro, yields
-- Ensemble LLMs + SPDE pipelines
+- Ensemble LLMs + SPDE pipelines + AutoTS
 
 ### 💼 Portfolio Optimization
 - Constraints: Volatility, CVaR, allocation
@@ -110,7 +111,7 @@ model.plot()
 
 ---
 
-## 🧐 Example: Portfolio Forecasting + Optimization
+## 🤔 Example: Portfolio Forecasting + Optimization
 
 ```python
 from awt_quant.forecast.portfolio.portfolio_forecast import PortfolioForecaster

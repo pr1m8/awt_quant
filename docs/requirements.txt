@@ -58,3 +58,4 @@ torchvision
 torchaudio
 autots
 nixtlats
+arch
