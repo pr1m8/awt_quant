@@ -1,8 +1,8 @@
 # AWT Quant
 
-**AWT Quant** is a next-generation quantitative research and financial modeling platform built for portfolio optimization, forecasting, risk analysis, and macroeconomic insight. It blends traditional stochastic modeling with state-of-the-art large language models (LLMs) and automated agent tooling.
+**AWT Quant** is a next-generation quantitative research and financial modeling platform built for portfolio optimization, forecasting, risk analysis, and macroeconomic insight. It blends traditional stochastic modeling with state-of-the-art large language models (LLMs), stress testing frameworks, and automated agent tooling.
 
-> 💹 From SPDE Monte Carlo simulations to AutoGPT-powered research assistants and macroeconomic database access — **AWT Quant** is your full-stack quant toolkit.
+> 💹 From SPDE Monte Carlo simulations to TimeGPT-powered research assistants, stress testing, portfolio optimization, and macroeconomic database access — **AWT Quant** is your full-stack quant toolkit.
 
 ---
 
@@ -11,14 +11,15 @@
 AWT Quant supports:
 
 - **Stochastic PDE Simulations** (e.g., GBM, Heston, CIR, OU, MJD)
-- **Scenario and Stress Testing**
-- **Portfolio Optimization** with forecastable constraints
-- **Portfolio and Macro Forecasting** (LLM + SPDE-powered)
+- **Stress Testing & Scenario Forecasting** (macro + portfolio)
+- **Portfolio Optimization** with forecastable constraints and LLM integration
+- **Portfolio & Macro Forecasting** (SPDE + Lag-Llama)
 - **Lag-Llama-based LLM Forecasting** ([Hugging Face Model](https://huggingface.co/time-series-foundation-models/Lag-Llama))
 - **Access to 800k+ macroeconomic time series**
-- **Integration with AutoGPT-style agents** for research and evaluation
+- **Risk & Performance Reporting** with Tearsheet generation
+- **TimeGPT-style agent pipelines** for simulation, evaluation, and reporting
 - **Realistic asset simulation with jump diffusion, volatility clustering, and stochastic drift**
-- **Backtestable pipelines & dynamic strategy analysis**
+- **Backtestable workflows, modular pipelines, and multi-layered inference**
 
 ---
 
@@ -35,9 +36,8 @@ poetry add awt-quant
 ## 📈 Getting Started
 
 ```python
-from awt_quant.simulators import SPDEMCSimulator
+from awt_quant.forecast.stochastic.run_simulations import SPDEMCSimulator
 
-# Initialize simulator
 sim = SPDEMCSimulator(
     symbol='AAPL',
     start_date='2022-01-01',
@@ -55,17 +55,17 @@ sim.plot_simulation()
 
 ---
 
-## 🧠 Forecasting & Macro Intelligence
+## 🧐 Forecasting & Macro Intelligence
 
 AWT Quant features:
 
-- 📊 LLM + Time Series forecasting (Lag-Llama, Prophet, and custom)
+- 📊 LLM + Time Series forecasting (Lag-Llama, GARCH, Macro)
 - 🌍 Access 800k+ global macroeconomic series
-- 🔗 Integrate with [FRED](https://fred.stlouisfed.org/), OECD, IMF, World Bank
-- 🧮 Combine scenario assumptions with forward simulations
+- 🔗 Integrate with FRED, IMF, World Bank, OECD
+- 🧼 Combine scenario assumptions with forward simulations
 
 ```python
-from awt_quant.llm.forecasting import LagLlamaForecaster
+from awt_quant.forecast.lag_llama_forecast import LagLlamaForecaster
 
 model = LagLlamaForecaster("AAPL")
 forecast_df = model.forecast(horizon=60)
@@ -78,43 +78,44 @@ model.plot()
 
 | Model | Description |
 |-------|-------------|
-| **GBM** | Standard model for stock price movements, assumes log-normal returns |
-| **Heston** | Captures stochastic volatility using a two-factor model |
-| **CIR** | Square-root mean-reverting process (popular for interest rates) |
-| **Ornstein-Uhlenbeck** | Classic mean-reverting process for signals and spreads |
-| **MJD** | Merton Jump Diffusion – introduces jumps in asset price dynamics |
+| **GBM** | Log-normal price movement (Black-Scholes) |
+| **Heston** | Stochastic volatility with mean reversion |
+| **CIR** | Interest rate modeling with mean-reverting variance |
+| **OU** | Signal modeling with noise around a mean |
+| **MJD** | GBM + discrete jumps (shock scenarios) |
 
 ---
 
 ## 📚 Use Cases
 
-### 🧠 Forecasting
-- Asset prices, volatility, macro indicators, yield curves
-- LLMs + SPDE ensembles for predictive modeling
+### 🧐 Forecasting
+- Assets, volatility, macro, yields
+- Ensemble LLMs + SPDE pipelines
 
 ### 💼 Portfolio Optimization
-- Constrained optimization with forecasts
-- CVaR, Black-Litterman, or expected return-based frameworks
+- Constraints: Volatility, CVaR, allocation
+- Black-Litterman & forecast-driven engines
 
 ### 🧪 Stress Testing
-- Hypothetical market conditions
-- Recession / Inflation / Policy Shocks
+- Regime shifts, interest rate shocks
+- Economic downturns and inflation shocks
 
-### 🧠 AutoGPT Integration
-- Plan and run financial research autonomously
-- Agents can:
-  - Query macro series
-  - Simulate portfolios
-  - Generate reports or insights
+### 📊 Risk Analytics
+- Generate custom tearsheets
+- Performance attribution and statistical risk factors
+
+### 🤖 Autonomous Research Agents
+- Powered by TimeGPT-style pipelines
+- Simulate, analyze, report — automatically
 
 ---
 
-## 🧠 Example: Portfolio Forecasting + Optimization
+## 🧐 Example: Portfolio Forecasting + Optimization
 
 ```python
-from awt_quant.optimization import PortfolioForecaster
+from awt_quant.forecast.portfolio.portfolio_forecast import PortfolioForecaster
 
-forecaster = PortfolioForecaster(tickers=["AAPL", "MSFT", "TSLA"])
+forecaster = PortfolioForecaster(["AAPL", "MSFT", "TSLA"])
 forecaster.forecast(horizon=30)
 opt_result = forecaster.optimize(max_volatility=0.1)
 forecaster.plot()
@@ -124,14 +125,40 @@ forecaster.plot()
 
 ## 📁 Directory Structure
 
-```bash
+```text
 awt_quant/
-├── simulators/               # SPDE models (gbm.py, heston.py, etc.)
-├── llm/                      # LLM-powered forecasting tools
-├── optimization/            # Portfolio optimizers
-├── macro/                   # Macro data connectors
-├── agents/                  # AutoGPT-style financial agents
-├── utils/                   # Helper utilities
+├── data_fetch/
+│   ├── macro.py
+│   └── yf_fetch.py
+├── forecast/
+│   ├── garch_forecast.py
+│   ├── lag_llama_forecast.py
+│   ├── macro_forecast.py
+│   ├── portfolio/
+│   │   ├── portfolio_forecast.py
+│   │   └── portfolio_simulations.py
+│   └── stochastic/
+│       ├── pde_forecast.py
+│       ├── portfolio/
+│       │   ├── portfolio_forecast.py
+│       │   └── portfolio_simulations.py
+│       ├── run_simulations.py
+│       ├── stochastic_likelihoods.py
+│       └── stochastic_models.py
+├── portfolio/
+│   ├── multi_factor_analysis/
+│   │   ├── DataCollector.py
+│   │   ├── FactorConstructor.py
+│   │   ├── KMeansClusterer.py
+│   │   ├── LocalizedModel.py
+│   │   ├── RandomForestFeatureSelector.py
+│   │   ├── StressSensitivityAnalysis.py
+│   │   └── main.py
+│   └── optimization/
+│       └── optimize.py
+├── risk/
+│   └── tearsheet.py
+├── utils.py
 └── __init__.py
 ```
 
@@ -149,22 +176,15 @@ poetry install
 
 ## 📖 Documentation
 
-Full documentation available at [awt-quant.readthedocs.io](https://awt-quant.readthedocs.io/)
+[https://awt-quant.readthedocs.io](https://awt-quant.readthedocs.io)
 
-- API reference
-- Model tutorials
-- Portfolio tools
-- Agent automation
-- Macro API integration
-
----
-
-## 💡 Inspiration & Foundation
-
-- [Lag-Llama](https://huggingface.co/time-series-foundation-models/Lag-Llama)
-- [QuantEcon](https://quantecon.org/)
-- [AutoGPT](https://github.com/Torantulino/Auto-GPT)
-- [Black-Litterman Model](https://www.investopedia.com/terms/b/blacklittermanmodel.asp)
+Includes:
+- API Reference
+- Simulation notebooks
+- Portfolio modeling guides
+- Macro pipelines
+- LLM integrations
+- Risk analytics & tearsheet customization
 
 ---
 
