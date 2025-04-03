@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.data_fetch package &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">awt_quant.data_fetch package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/awt_quant.data_fetch.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="awt-quant-data-fetch-package">
+<h1>awt_quant.data_fetch package<a class="headerlink" href="#awt-quant-data-fetch-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-awt_quant.data_fetch.macro">
+<span id="awt-quant-data-fetch-macro-module"></span><h2>awt_quant.data_fetch.macro module<a class="headerlink" href="#module-awt_quant.data_fetch.macro" title="Link to this heading"></a></h2>
+<p>FRED Macroeconomic Data Fetching and Visualization</p>
+<p>This module provides functions to fetch macroeconomic time series data from the Federal Reserve Economic Data (FRED) API
+and visualize the results using Plotly. It supports retrieving both historical data and metadata for various economic indicators.</p>
+<dl class="simple">
+<dt>Functions:</dt><dd><ul class="simple">
+<li><p>get_fred_series(series_id, shorten=False): Fetches time series data from FRED.</p></li>
+<li><p>get_fred_series_info(series_id, as_dict=True): Retrieves metadata for a FRED series.</p></li>
+<li><p>get_macro(series_id, data=True, info=True, shorten=False): Fetches both time series and metadata for a FRED series.</p></li>
+<li><p>get_bulk_macro(series_dict): Bulk fetches macroeconomic data for predefined indicators.</p></li>
+<li><p>plot_macro_series(data, meta_data, dropna=False, y_axis_format=None): Plots macroeconomic time series data.</p></li>
+<li><p>plot_macro_series_forecast(forecast_data, actual_data, meta_data, dropna=False, y_axis_format=None):
+Plots actual and forecasted macroeconomic data with confidence intervals.</p></li>
+<li><p>fetch_and_plot(series_id, with_data=False): Fetches and plots a macroeconomic time series.</p></li>
+</ul>
+</dd>
+<dt>Usage:</dt><dd><p>df, meta = get_macro(“GDP”)
+fig = plot_macro_series(df, meta)
+fig.show()</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.macro.get_bulk_macro">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.macro.</span></span><span class="sig-name descname"><span class="pre">get_bulk_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'Consumer</span> <span class="pre">Price</span> <span class="pre">Index</span> <span class="pre">(CPI)':</span> <span class="pre">'CPIAUCSL',</span> <span class="pre">'Federal</span> <span class="pre">Funds</span> <span class="pre">Rate':</span> <span class="pre">'FEDFUNDS',</span> <span class="pre">'Gross</span> <span class="pre">Domestic</span> <span class="pre">Product</span> <span class="pre">(GDP)':</span> <span class="pre">'GDP',</span> <span class="pre">'Retail</span> <span class="pre">Sales':</span> <span class="pre">'RSXFS',</span> <span class="pre">'Unemployment</span> <span class="pre">Rate':</span> <span class="pre">'UNRATE'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_bulk_macro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.macro.get_bulk_macro" title="Link to this definition"></a></dt>
+<dd><p>Bulk fetch of major macroeconomic series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>series_dict</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of macroeconomic indicators and their FRED series IDs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing time series data and metadata for each indicator.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.macro.get_fred_series">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.macro.</span></span><span class="sig-name descname"><span class="pre">get_fred_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shorten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_fred_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.macro.get_fred_series" title="Link to this definition"></a></dt>
+<dd><p>Fetches time series data from FRED.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>shorten</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns only the last 30 observations. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dataframe containing the date and value columns.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.macro.get_fred_series_info">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.macro.</span></span><span class="sig-name descname"><span class="pre">get_fred_series_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_fred_series_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.macro.get_fred_series_info" title="Link to this definition"></a></dt>
+<dd><p>Retrieves metadata for a FRED series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>as_dict</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns metadata as a dictionary; otherwise, returns a DataFrame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata about the series.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.macro.get_macro">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.macro.</span></span><span class="sig-name descname"><span class="pre">get_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shorten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_macro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.macro.get_macro" title="Link to this definition"></a></dt>
+<dd><p>Fetches both time series data and metadata for a given FRED series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>data</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to fetch time series data. Defaults to True.</p></li>
+<li><p><strong>info</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to fetch metadata. Defaults to True.</p></li>
+<li><p><strong>shorten</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns only the last 30 observations. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pd.DataFrame, dict) or single return depending on arguments.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.macro.plot_macro_series">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.macro.</span></span><span class="sig-name descname"><span class="pre">plot_macro_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_axis_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#plot_macro_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.macro.plot_macro_series" title="Link to this definition"></a></dt>
+<dd><p>Plots macroeconomic time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – The time series data.</p></li>
+<li><p><strong>meta_data</strong> (<em>dict</em>) – The metadata of the series.</p></li>
+<li><p><strong>dropna</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to drop NaN values. Defaults to False.</p></li>
+<li><p><strong>y_axis_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Y-axis tick format. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Plotly figure object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plotly.graph_objects.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-awt_quant.data_fetch.yf_fetch">
+<span id="awt-quant-data-fetch-yf-fetch-module"></span><h2>awt_quant.data_fetch.yf_fetch module<a class="headerlink" href="#module-awt_quant.data_fetch.yf_fetch" title="Link to this heading"></a></h2>
+<p>Yahoo Finance Data Fetching</p>
+<p>This module provides a function to fetch historical stock price data from Yahoo Finance.
+It preprocesses the data for use in stochastic differential equation models.</p>
+<dl class="simple">
+<dt>Functions:</dt><dd><ul class="simple">
+<li><p>download_data(ticker, start_date, end_date, train_test_split): Fetches and splits stock price data.</p></li>
+</ul>
+</dd>
+<dt>Usage:</dt><dd><p>train_data, test_data, meta_data = download_data(“AAPL”, “2022-01-01”, “2023-01-01”, train_test_split=0.8)</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.yf_fetch.download_data">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.yf_fetch.</span></span><span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/yf_fetch.html#download_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.yf_fetch.download_data" title="Link to this definition"></a></dt>
+<dd><p>Downloads stock price data from Yahoo Finance and processes it for training/testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ticker</strong> (<em>str</em>) – Stock ticker symbol.</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>train_test_split</strong> (<em>float</em>) – Fraction of data to use for training (e.g., 0.8 for 80% training data).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(train_data, test_data, meta_data)</dt><dd><ul class="simple">
+<li><p>train_data (pd.DataFrame): Training set containing stock close prices.</p></li>
+<li><p>test_data (pd.DataFrame): Testing set containing stock close prices.</p></li>
+<li><p>meta_data (dict): Dictionary with additional information (dates, S0, T, N).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-awt_quant.data_fetch">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-awt_quant.data_fetch" title="Link to this heading"></a></h2>
+<p>Data Fetching Module</p>
+<p>This module provides functions for retrieving financial and macroeconomic data
+from external sources such as Yahoo Finance.</p>
+<p>Available Functions:
+- <cite>fetch_macro_data</cite>: Retrieves macroeconomic indicators.
+- <cite>fetch_yfinance_data</cite>: Fetches historical stock price data from Yahoo Finance.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.download_data">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_test_split</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/yf_fetch.html#download_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.download_data" title="Link to this definition"></a></dt>
+<dd><p>Downloads stock price data from Yahoo Finance and processes it for training/testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ticker</strong> (<em>str</em>) – Stock ticker symbol.</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Start date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – End date in ‘YYYY-MM-DD’ format.</p></li>
+<li><p><strong>train_test_split</strong> (<em>float</em>) – Fraction of data to use for training (e.g., 0.8 for 80% training data).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(train_data, test_data, meta_data)</dt><dd><ul class="simple">
+<li><p>train_data (pd.DataFrame): Training set containing stock close prices.</p></li>
+<li><p>test_data (pd.DataFrame): Testing set containing stock close prices.</p></li>
+<li><p>meta_data (dict): Dictionary with additional information (dates, S0, T, N).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.get_bulk_macro">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">get_bulk_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'Consumer</span> <span class="pre">Price</span> <span class="pre">Index</span> <span class="pre">(CPI)':</span> <span class="pre">'CPIAUCSL',</span> <span class="pre">'Federal</span> <span class="pre">Funds</span> <span class="pre">Rate':</span> <span class="pre">'FEDFUNDS',</span> <span class="pre">'Gross</span> <span class="pre">Domestic</span> <span class="pre">Product</span> <span class="pre">(GDP)':</span> <span class="pre">'GDP',</span> <span class="pre">'Retail</span> <span class="pre">Sales':</span> <span class="pre">'RSXFS',</span> <span class="pre">'Unemployment</span> <span class="pre">Rate':</span> <span class="pre">'UNRATE'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_bulk_macro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.get_bulk_macro" title="Link to this definition"></a></dt>
+<dd><p>Bulk fetch of major macroeconomic series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>series_dict</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary of macroeconomic indicators and their FRED series IDs.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing time series data and metadata for each indicator.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.get_fred_series">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">get_fred_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shorten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_fred_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.get_fred_series" title="Link to this definition"></a></dt>
+<dd><p>Fetches time series data from FRED.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>shorten</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns only the last 30 observations. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dataframe containing the date and value columns.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.get_fred_series_info">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">get_fred_series_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_fred_series_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.get_fred_series_info" title="Link to this definition"></a></dt>
+<dd><p>Retrieves metadata for a FRED series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>as_dict</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns metadata as a dictionary; otherwise, returns a DataFrame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata about the series.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.get_macro">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">get_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shorten</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#get_macro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.get_macro" title="Link to this definition"></a></dt>
+<dd><p>Fetches both time series data and metadata for a given FRED series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>series_id</strong> (<em>str</em>) – The FRED series ID.</p></li>
+<li><p><strong>data</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to fetch time series data. Defaults to True.</p></li>
+<li><p><strong>info</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to fetch metadata. Defaults to True.</p></li>
+<li><p><strong>shorten</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns only the last 30 observations. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pd.DataFrame, dict) or single return depending on arguments.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.data_fetch.plot_macro_series">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.data_fetch.</span></span><span class="sig-name descname"><span class="pre">plot_macro_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_axis_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/awt_quant/data_fetch/macro.html#plot_macro_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.data_fetch.plot_macro_series" title="Link to this definition"></a></dt>
+<dd><p>Plots macroeconomic time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – The time series data.</p></li>
+<li><p><strong>meta_data</strong> (<em>dict</em>) – The metadata of the series.</p></li>
+<li><p><strong>dropna</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to drop NaN values. Defaults to False.</p></li>
+<li><p><strong>y_axis_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Y-axis tick format. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Plotly figure object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plotly.graph_objects.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

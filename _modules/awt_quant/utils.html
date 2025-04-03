@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.utils &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">awt_quant.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for awt_quant.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas_market_calendars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">probplot</span><span class="p">,</span> <span class="n">moment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.graphics.tsaplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_acf</span><span class="p">,</span> <span class="n">plot_pacf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.stattools</span><span class="w"> </span><span class="kn">import</span> <span class="n">acf</span><span class="p">,</span> <span class="n">q_stat</span><span class="p">,</span> <span class="n">adfuller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">polyfit</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">subtract</span>
+<span class="c1">#from torch import sqrt, log, polyfit, std, subtract</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hurst</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">lag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the Hurst Exponent for a given time series.</span>
+
+<span class="sd">    The Hurst Exponent is a measure of long-term memory in a time series:</span>
+<span class="sd">    - Near 0.5: Random series.</span>
+<span class="sd">    - Near 0: Mean reverting.</span>
+<span class="sd">    - Near 1: Trending.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ts (array-like): Time series data.</span>
+<span class="sd">        lag (int): Maximum lag to compute.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: Hurst exponent value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lags</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">lag</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="n">lag</span><span class="p">:],</span> <span class="n">ts</span><span class="p">[:</span><span class="o">-</span><span class="n">lag</span><span class="p">])))</span> <span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="n">lags</span><span class="p">]</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lags</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="hurst">
+<a class="viewcode-back" href="../../awt_quant.html#awt_quant.utils.hurst">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hurst</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">lag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the Hurst Exponent of the time series vector ts</span>
+<span class="sd">    The Hurst Exponent is a statistical measure used to classify time series and infer the level of difficulty in predicting and</span>
+<span class="sd">    choosing an appropriate model for the series at hand. The Hurst exponent is used as a measure of long-term memory of time series.</span>
+<span class="sd">    It relates to the autocorrelations of the time series, and the rate at which these decrease as the lag between pairs of</span>
+<span class="sd">    values increases.</span>
+
+<span class="sd">    Value near 0.5 indicates a random series.</span>
+<span class="sd">    Value near 0 indicates a mean reverting series.</span>
+<span class="sd">    Value near 1 indicates a trending series.&quot;&quot;&quot;</span>
+    <span class="n">lags</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">lag</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="n">std</span><span class="p">(</span><span class="n">subtract</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="n">lag</span><span class="p">:],</span> <span class="n">ts</span><span class="p">[:</span><span class="o">-</span><span class="n">lag</span><span class="p">])))</span> <span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="n">lags</span><span class="p">]</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">polyfit</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="n">lags</span><span class="p">),</span> <span class="n">log</span><span class="p">(</span><span class="n">tau</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="financial_calendar_days_before">
+<a class="viewcode-back" href="../../awt_quant.html#awt_quant.utils.financial_calendar_days_before">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">financial_calendar_days_before</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">calendar_name</span><span class="o">=</span><span class="s1">&#39;NYSE&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the T-th market day occurring before a given date.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        date_str (str): End date in &#39;YYYY-MM-DD&#39; format.</span>
+<span class="sd">        T (int): Number of market days to go back.</span>
+<span class="sd">        calendar_name (str): Market calendar name (default: &#39;NYSE&#39;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Computed start date in &#39;YYYY-MM-DD&#39; format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">calendar</span> <span class="o">=</span> <span class="n">mcal</span><span class="o">.</span><span class="n">get_calendar</span><span class="p">(</span><span class="n">calendar_name</span><span class="p">)</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">date_str</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">T</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">end_date</span> <span class="o">-</span> <span class="n">delta</span>
+    <span class="n">market_days</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="n">end_date</span><span class="p">)</span>
+    <span class="n">result_date</span> <span class="o">=</span> <span class="n">market_days</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="n">T</span><span class="p">]</span><span class="o">.</span><span class="n">market_open</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="plot_correlogram">
+<a class="viewcode-back" href="../../awt_quant.html#awt_quant.utils.plot_correlogram">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_correlogram</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots the correlogram for a given time series.</span>
+
+<span class="sd">    The output consists of:</span>
+<span class="sd">    - Time series plot.</span>
+<span class="sd">    - Q-Q plot.</span>
+<span class="sd">    - Autocorrelation Function (ACF).</span>
+<span class="sd">    - Partial Autocorrelation Function (PACF).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (pd.Series): Time series data.</span>
+<span class="sd">        lags (int, optional): Number of lags in ACF/PACF.</span>
+<span class="sd">        title (str, optional): Plot title.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lags</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">lags</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">lags</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    
+    <span class="c1"># Time series plot</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">q_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">q_stat</span><span class="p">(</span><span class="n">acf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="n">lags</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Q-Stat: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">q_p</span><span class="p">)</span><span class="si">:</span><span class="s1">&gt;8.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">ADF: </span><span class="si">{</span><span class="n">adfuller</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">&gt;11.2f</span><span class="si">}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">Hurst: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">hurst</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="w"> </span><span class="n">lags</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">.02</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">.85</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+
+    <span class="c1"># Q-Q plot</span>
+    <span class="n">probplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mean</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">skew</span><span class="p">,</span> <span class="n">kurtosis</span> <span class="o">=</span> <span class="n">moment</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Mean: </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s1">&gt;12.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">SD: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="si">:</span><span class="s1">&gt;16.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">Skew: </span><span class="si">{</span><span class="n">skew</span><span class="si">:</span><span class="s1">12.2f</span><span class="si">}</span><span class="se">\n</span><span class="s1">Kurtosis:</span><span class="si">{</span><span class="n">kurtosis</span><span class="si">:</span><span class="s1">9.2f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">.02</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">.75</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">)</span>
+
+    <span class="c1"># ACF/PACF</span>
+    <span class="n">plot_acf</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="n">lags</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">plot_pacf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="n">lags</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Lag&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Lag&#39;</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">.9</span><span class="p">)</span></div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

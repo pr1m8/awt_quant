@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.forecast.macro_forecast &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="awt_quant.forecast.portfolio" href="../portfolio/index.html" />
+    <link rel="prev" title="awt_quant.forecast.lag_llama_forecast" href="../lag_llama_forecast/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">awt_quant</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../data_fetch/index.html">awt_quant.data_fetch</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">awt_quant.forecast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../risk/index.html">awt_quant.risk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">awt_quant.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">awt_quant</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">awt_quant.forecast</a></li>
+      <li class="breadcrumb-item active">awt_quant.forecast.macro_forecast</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/awt_quant/forecast/macro_forecast/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-awt_quant.forecast.macro_forecast">
+<span id="awt-quant-forecast-macro-forecast"></span><h1>awt_quant.forecast.macro_forecast<a class="headerlink" href="#module-awt_quant.forecast.macro_forecast" title="Link to this heading"></a></h1>
+<p>Macro Data Forecasting and Visualization</p>
+<p>This module provides functionality for forecasting macroeconomic time series data using AutoTS and TimeGPT.
+It includes preprocessing utilities, automated forecasting methods, and visualization tools.</p>
+<dl class="simple">
+<dt>Functions:</dt><dd><ul class="simple">
+<li><p>MacroDataForecasting: A class for managing time series data and forecasting.</p></li>
+<li><p>convert_numpy_floats(obj): Converts NumPy float64 values to native Python floats.</p></li>
+<li><p>api_forecast(series_id): Fetches macroeconomic data and forecasts future values using TimeGPT.</p></li>
+</ul>
+</dd>
+<dt>Usage:</dt><dd><p>time_series_data, meta_data = get_macro(“GDP”)
+forecasting = MacroDataForecasting(time_series_data)
+forecast_results = forecasting.execute_forecasts()</p>
+</dd>
+</dl>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.TIMEGPT_API_KEY">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.macro_forecast.</span></span><span class="sig-name descname"><span class="pre">TIMEGPT_API_KEY</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#TIMEGPT_API_KEY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.TIMEGPT_API_KEY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.timegpt">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.macro_forecast.</span></span><span class="sig-name descname"><span class="pre">timegpt</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#timegpt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.timegpt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.macro_forecast.</span></span><span class="sig-name descname"><span class="pre">MacroDataForecasting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting" title="Link to this definition"></a></dt>
+<dd><p>A class for forecasting macroeconomic time series data using AutoTS.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.time_series">
+<span class="sig-name descname"><span class="pre">time_series</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.time_series" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.meta_data">
+<span class="sig-name descname"><span class="pre">meta_data</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.meta_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.meta_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.forecast_results">
+<span class="sig-name descname"><span class="pre">forecast_results</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.forecast_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.forecast_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.preprocess_data">
+<span class="sig-name descname"><span class="pre">preprocess_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'average'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">na_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drop'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.preprocess_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.preprocess_data" title="Link to this definition"></a></dt>
+<dd><p>Preprocesses the time series data by handling missing values and formatting dates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Method to handle missing values (‘average’, ‘interpolate’). Defaults to ‘average’.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the data. Defaults to False.</p></li>
+<li><p><strong>return_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of return calculation (‘log’, ‘percent’) or None. Defaults to None.</p></li>
+<li><p><strong>na_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Method to handle missing values (‘drop’, ‘ffill’, ‘interpolate’). Defaults to ‘drop’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.forecast_with_autots">
+<span class="sig-name descname"><span class="pre">forecast_with_autots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forecast_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'infer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'superfast'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformer_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'superfast'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensemble</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'distance'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_generations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_validations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'backward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_weighting</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'smape_weighting':</span> <span class="pre">0.5,</span> <span class="pre">'mae_weighting':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drop_most_recent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.forecast_with_autots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.forecast_with_autots" title="Link to this definition"></a></dt>
+<dd><p>Generates forecasts using the AutoTS library with enhanced parameterization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forecast_length</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of periods to forecast. Defaults to 30.</p></li>
+<li><p><strong>frequency</strong> (<em>str</em><em>, </em><em>optional</em>) – Frequency of the time series data. Defaults to ‘infer’.</p></li>
+<li><p><strong>prediction_interval</strong> (<em>float</em><em>, </em><em>optional</em>) – Prediction interval for the forecast. Defaults to 0.9.</p></li>
+<li><p><strong>model_list</strong> (<em>list</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Models to be used in the search. Defaults to ‘superfast’.</p></li>
+<li><p><strong>transformer_list</strong> (<em>list</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Data transformations to be applied. Defaults to ‘superfast’.</p></li>
+<li><p><strong>ensemble</strong> (<em>str</em><em>, </em><em>optional</em>) – Ensemble method to use. Defaults to ‘distance’.</p></li>
+<li><p><strong>max_generations</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of generations for the model search. Defaults to 4.</p></li>
+<li><p><strong>num_validations</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of validation sets used in model selection. Defaults to 1.</p></li>
+<li><p><strong>validation_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Method for time series cross-validation. Defaults to ‘backward’.</p></li>
+<li><p><strong>metric_weighting</strong> (<em>dict</em><em>, </em><em>optional</em>) – Weighting of different performance metrics. Defaults to {‘smape_weighting’: 0.5, ‘mae_weighting’: 0.5}.</p></li>
+<li><p><strong>drop_most_recent</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of most recent data points to drop. Defaults to 0.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Number of jobs to run in parallel. Defaults to ‘auto’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing forecast results, lower and upper bounds.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.MacroDataForecasting.execute_forecasts">
+<span class="sig-name descname"><span class="pre">execute_forecasts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">na_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'drop'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#MacroDataForecasting.execute_forecasts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.MacroDataForecasting.execute_forecasts" title="Link to this definition"></a></dt>
+<dd><p>Executes the full forecasting pipeline including preprocessing and forecasting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>na_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Method to handle missing values. Defaults to ‘drop’.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Forecast results.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.convert_numpy_floats">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.macro_forecast.</span></span><span class="sig-name descname"><span class="pre">convert_numpy_floats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#convert_numpy_floats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.convert_numpy_floats" title="Link to this definition"></a></dt>
+<dd><p>Recursively converts NumPy float64 values to Python native float.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<em>any</em>) – Object containing NumPy floats.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object with converted float values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="awt_quant.forecast.macro_forecast.api_forecast">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.macro_forecast.</span></span><span class="sig-name descname"><span class="pre">api_forecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/macro_forecast.html#api_forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.macro_forecast.api_forecast" title="Link to this definition"></a></dt>
+<dd><p>Fetches macroeconomic data and forecasts future values using TimeGPT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>series_id</strong> (<em>str</em>) – The macroeconomic series ID.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing forecasted values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../lag_llama_forecast/index.html" class="btn btn-neutral float-left" title="awt_quant.forecast.lag_llama_forecast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../portfolio/index.html" class="btn btn-neutral float-right" title="awt_quant.forecast.portfolio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.forecast.portfolio.portfolio_forecast &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">awt_quant.forecast.portfolio.portfolio_forecast</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for awt_quant.forecast.portfolio.portfolio_forecast</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Portfolio Forecasting using Monte Carlo Simulations &amp; Copula Models.</span>
+
+<span class="sd">This module extends SPDEMCSimulator to forecast a portfolio of assets.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    - PortfolioForecast: Forecasts portfolio performance using copula-based simulations.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.forecast.stochastic.pde_forecast</span><span class="w"> </span><span class="kn">import</span> <span class="n">SPDEMCSimulator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pmdarima</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotly.subplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_subplots</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copulas.multivariate</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianMultivariate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KernelDensity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">awt_quant.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_correlogram</span>
+
+
+<div class="viewcode-block" id="PortfolioForecast">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PortfolioForecast</span><span class="p">(</span><span class="n">SPDEMCSimulator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forecasts a portfolio using Monte Carlo simulations and copula models.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        - portfolio: Dictionary with stock symbols, positions, and quantities.</span>
+<span class="sd">        - equation: Stochastic Differential Equation model (CIR, GBM, Heston, OU).</span>
+<span class="sd">        - assets: List of SPDEMCSimulator instances for each stock.</span>
+<span class="sd">        - train_data, test_data: Aggregated portfolio data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portfolio</span><span class="p">,</span> <span class="n">equation</span><span class="p">,</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;2022-01-01&#39;</span><span class="p">,</span>
+                 <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;2022-03-01&#39;</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_paths</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">plot_vol</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_sim</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes PortfolioForecast with a list of stocks and positions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            portfolio (dict): Dictionary containing symbols, quantities, and positions.</span>
+<span class="sd">            equation (str): Chosen stochastic model (CIR, GBM, Heston, OU).</span>
+<span class="sd">            train_test_split (float): Ratio of training data.</span>
+<span class="sd">            start_date (str): Start date for data collection.</span>
+<span class="sd">            end_date (str): End date for data collection.</span>
+<span class="sd">            dt (int): Time step size.</span>
+<span class="sd">            num_paths (int): Number of simulation paths.</span>
+<span class="sd">            plot_vol (bool): Plot volatility models.</span>
+<span class="sd">            plot_sim (bool): Plot individual stock simulations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="PortfolioForecast.portfolio">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.portfolio">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portfolio</span> <span class="o">=</span> <span class="n">portfolio</span></div>
+
+<div class="viewcode-block" id="PortfolioForecast.symbols">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.symbols">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbols</span> <span class="o">=</span> <span class="n">portfolio</span><span class="p">[</span><span class="s1">&#39;symbol&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PortfolioForecast.assets">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.assets">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="PortfolioForecast.quantity">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.quantity">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="o">=</span> <span class="n">portfolio</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PortfolioForecast.position">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.position">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">S0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>
+<div class="viewcode-block" id="PortfolioForecast.equation">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.equation">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equation</span> <span class="o">=</span> <span class="n">equation</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dates_pred</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_paths</span> <span class="o">=</span> <span class="n">dt</span><span class="p">,</span> <span class="n">num_paths</span>
+
+        <span class="c1"># Load individual assets</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ticker</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbols</span><span class="p">):</span>
+            <span class="n">asset</span> <span class="o">=</span> <span class="n">SPDEMCSimulator</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">equation</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">num_paths</span><span class="p">,</span> <span class="n">plot_vol</span><span class="p">)</span>
+            <span class="n">asset</span><span class="o">.</span><span class="n">download_data</span><span class="p">(</span><span class="n">train_test_split</span><span class="p">)</span>
+            <span class="n">asset</span><span class="o">.</span><span class="n">set_parameters</span><span class="p">()</span>
+            <span class="n">asset</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">equation</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plot_sim</span><span class="p">:</span>
+                <span class="n">asset</span><span class="o">.</span><span class="n">plot_simulation</span><span class="p">(</span><span class="n">equation</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asset</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">portfolio</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Long&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">asset</span><span class="o">.</span><span class="n">train_data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">asset</span><span class="o">.</span><span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">asset</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">S0</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">asset</span><span class="o">.</span><span class="n">S0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates_pred</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">dates_train</span><span class="p">,</span> <span class="n">asset</span><span class="o">.</span><span class="n">dates_pred</span>
+
+<div class="viewcode-block" id="PortfolioForecast.copula_simulation">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.copula_simulation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copula_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulates a copula model to generate dependent return quantiles.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            - torch.Tensor: Copula-simulated quantiles (shape: n_stocks x n_simulations x T)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_paths</span><span class="p">,</span> <span class="n">n_stocks</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_paths</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">N</span>
+        <span class="n">log_returns</span> <span class="o">=</span> <span class="p">[</span><span class="n">asset</span><span class="o">.</span><span class="n">returns</span> <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">]</span>
+        <span class="n">kdes</span> <span class="o">=</span> <span class="p">[</span><span class="n">KernelDensity</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">log_returns</span><span class="p">]</span>
+
+        <span class="n">uniform_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">kde</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kdes</span><span class="p">,</span> <span class="n">log_returns</span><span class="p">):</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="n">kde</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">cdf_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span> <span class="o">-</span> <span class="n">scores</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>  <span class="c1"># Avoid underflow</span>
+            <span class="n">cdf_values</span> <span class="o">=</span> <span class="n">cdf_values</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="n">cdf_values</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">uniform_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cdf_values</span><span class="p">)</span>
+
+        <span class="n">uniform_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">uniform_data</span><span class="p">)</span>
+        <span class="n">copula</span> <span class="o">=</span> <span class="n">GaussianMultivariate</span><span class="p">()</span>
+        <span class="n">copula</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">uniform_data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">copula_samples</span> <span class="o">=</span> <span class="n">copula</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">num_paths</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="n">copula_samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">num_paths</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">n_stocks</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PortfolioForecast.forecast">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.forecast">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forecast</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates portfolio price forecasts based on copula-simulated quantiles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_stocks</span><span class="p">,</span> <span class="n">num_paths</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_paths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">N</span>
+        <span class="n">quantiles</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">copula_simulation</span><span class="p">())</span>
+        <span class="n">simulation</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+
+        <span class="n">forecasted_paths</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_stocks</span><span class="p">,</span> <span class="n">num_paths</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">stock_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stocks</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+                <span class="n">forecasted_paths</span><span class="p">[</span><span class="n">stock_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span>
+                    <span class="n">simulation</span><span class="p">[</span><span class="n">stock_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+                    <span class="n">quantiles</span><span class="p">[</span><span class="n">stock_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n_stocks</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">forecasted_paths</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PortfolioForecast.plot_forecast">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.plot_forecast">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_forecast</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plots portfolio simulation with quantile paths and percent errors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">redundancy_column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">S0</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_paths</span><span class="p">)</span>
+        <span class="n">pred_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_data</span><span class="p">)</span>
+        <span class="n">shifted_simulations</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">redundancy_column</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">))</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dates_train</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates_pred</span><span class="p">)</span>
+        <span class="n">quantiles</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span>
+            <span class="n">rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">subplot_titles</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Portfolio Forecast&quot;</span><span class="p">,</span> <span class="s2">&quot;Error Mean&quot;</span><span class="p">,</span> <span class="s2">&quot;Error Median&quot;</span><span class="p">),</span>
+            <span class="n">specs</span><span class="o">=</span><span class="p">[[{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="kc">None</span><span class="p">],</span> <span class="p">[{},</span> <span class="p">{}]]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Portfolio Forecast</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Historical Prices&#39;</span><span class="p">,</span>
+                                 <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">shifted_simulations</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Mean Forecast&#39;</span><span class="p">,</span>
+                                 <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">quantiles</span><span class="p">):</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">shifted_simulations</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                                     <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Quantile </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])),</span>
+                          <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Mean Error</span>
+        <span class="n">mean_error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">pred_data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">pred_data</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dates_pred</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">mean_error</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Mean Error&#39;</span><span class="p">,</span>
+                                 <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Median Error</span>
+        <span class="n">median_error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">pred_data</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">pred_data</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dates_pred</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">median_error</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Median Error&#39;</span><span class="p">,</span>
+                                 <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Portfolio Forecast and Error Analysis&quot;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PortfolioForecast.backtest">
+<a class="viewcode-back" href="../../../../autoapi/awt_quant/forecast/portfolio/portfolio_forecast/index.html#awt_quant.forecast.portfolio.portfolio_forecast.PortfolioForecast.backtest">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backtest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Backtests the forecast and prints ARMA model summaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">):</span>
+            <span class="n">returns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+            <span class="n">plot_correlogram</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                             <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Correlogram for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">symbols</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Fit ARMA model</span>
+            <span class="n">arma_model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">auto_arima</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">returns</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_p</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                       <span class="n">seasonal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;bic&#39;</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ARMA Model Summary for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">symbols</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">arma_model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

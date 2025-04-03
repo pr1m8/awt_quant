@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.forecast.garch_forecast &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="awt_quant.forecast.lag_llama_forecast" href="../lag_llama_forecast/index.html" />
+    <link rel="prev" title="awt_quant.forecast" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">awt_quant</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../data_fetch/index.html">awt_quant.data_fetch</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">awt_quant.forecast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../risk/index.html">awt_quant.risk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">awt_quant.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">awt_quant</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">awt_quant.forecast</a></li>
+      <li class="breadcrumb-item active">awt_quant.forecast.garch_forecast</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/awt_quant/forecast/garch_forecast/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-awt_quant.forecast.garch_forecast">
+<span id="awt-quant-forecast-garch-forecast"></span><h1>awt_quant.forecast.garch_forecast<a class="headerlink" href="#module-awt_quant.forecast.garch_forecast" title="Link to this heading"></a></h1>
+<p>GARCH Model Optimization and Volatility Forecasting.</p>
+<p>This module finds the best GARCH-like model for a given time series, fits it, and visualizes
+its conditional volatility.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><ul class="simple">
+<li><p>GARCHOptimizer: Handles GARCH model selection, fitting, and volatility forecasting.</p></li>
+</ul>
+</dd>
+<dt>Usage:</dt><dd><p>garch = GARCHOptimizer(series, dates_train, ticker)
+best_model = garch.fit()
+fig = garch.plot_volatility()
+fig.show()</p>
+</dd>
+</dl>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.forecast.garch_forecast.</span></span><span class="sig-name descname"><span class="pre">GARCHOptimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticker</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer" title="Link to this definition"></a></dt>
+<dd><p>A class to find and optimize a GARCH-like model for a given time series.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.series">
+<span class="sig-name descname"><span class="pre">series</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.series" title="Link to this definition"></a></dt>
+<dd><p>Time series data of asset returns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.dates_train">
+<span class="sig-name descname"><span class="pre">dates_train</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.dates_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.dates_train" title="Link to this definition"></a></dt>
+<dd><p>Corresponding date index for the series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.ticker">
+<span class="sig-name descname"><span class="pre">ticker</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.ticker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.ticker" title="Link to this definition"></a></dt>
+<dd><p>Stock ticker symbol.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.plot_vol">
+<span class="sig-name descname"><span class="pre">plot_vol</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.plot_vol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.plot_vol" title="Link to this definition"></a></dt>
+<dd><p>Whether to plot the volatility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.best_model">
+<span class="sig-name descname"><span class="pre">best_model</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.best_model" title="Link to this definition"></a></dt>
+<dd><p>The best identified GARCH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.best_p">
+<span class="sig-name descname"><span class="pre">best_p</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.best_p" title="Link to this definition"></a></dt>
+<dd><p>Optimal p lag order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.best_q">
+<span class="sig-name descname"><span class="pre">best_q</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_q"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.best_q" title="Link to this definition"></a></dt>
+<dd><p>Optimal q lag order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.fitted_model">
+<span class="sig-name descname"><span class="pre">fitted_model</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.fitted_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.fitted_model" title="Link to this definition"></a></dt>
+<dd><p>The fitted GARCH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>arch.univariate.base.ARCHModelResult</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">series</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">dates_train</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.dates_train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">ticker</span></span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.ticker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">plot_vol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.plot_vol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">best_model</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">best_p</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">best_q</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.best_q"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">fitted_model</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.fitted_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.fit" title="Link to this definition"></a></dt>
+<dd><p>Finds the best GARCH model using Bayesian Information Criterion (BIC).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The fitted optimal GARCH model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>arch.univariate.base.ARCHModelResult</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.plot_volatility">
+<span class="sig-name descname"><span class="pre">plot_volatility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.plot_volatility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.plot_volatility" title="Link to this definition"></a></dt>
+<dd><p>Plots the conditional volatility of the fitted GARCH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Plotly figure displaying the volatility plot.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>plotly.graph_objects.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.forecast.garch_forecast.GARCHOptimizer.forecast">
+<span class="sig-name descname"><span class="pre">forecast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">horizon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/awt_quant/forecast/garch_forecast.html#GARCHOptimizer.forecast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.forecast.garch_forecast.GARCHOptimizer.forecast" title="Link to this definition"></a></dt>
+<dd><p>Generates a volatility forecast for the next <cite>horizon</cite> periods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>horizon</strong> (<em>int</em>) – Number of future periods to forecast.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame with the forecasted conditional variances.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="awt_quant.forecast" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../lag_llama_forecast/index.html" class="btn btn-neutral float-right" title="awt_quant.forecast.lag_llama_forecast" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
