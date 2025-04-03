@@ -61,3 +61,4 @@ nixtlats
 arch
 pandas-market-calendars
 pmdarima
+copulas 
