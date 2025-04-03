@@ -1,0 +1,181 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.portfolio.multi_factor_analysis.FactorConstructor &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="awt_quant.portfolio.multi_factor_analysis.KMeansClusterer" href="../KMeansClusterer/index.html" />
+    <link rel="prev" title="awt_quant.portfolio.multi_factor_analysis.DataCollector" href="../DataCollector/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../../index.html">awt_quant</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../../data_fetch/index.html">awt_quant.data_fetch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../forecast/index.html">awt_quant.forecast</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../index.html">awt_quant.portfolio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../risk/index.html">awt_quant.risk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../utils/index.html">awt_quant.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">awt_quant</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">awt_quant.portfolio</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">awt_quant.portfolio.multi_factor_analysis</a></li>
+      <li class="breadcrumb-item active">awt_quant.portfolio.multi_factor_analysis.FactorConstructor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../../_sources/autoapi/awt_quant/portfolio/multi_factor_analysis/FactorConstructor/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-awt_quant.portfolio.multi_factor_analysis.FactorConstructor">
+<span id="awt-quant-portfolio-multi-factor-analysis-factorconstructor"></span><h1>awt_quant.portfolio.multi_factor_analysis.FactorConstructor<a class="headerlink" href="#module-awt_quant.portfolio.multi_factor_analysis.FactorConstructor" title="Link to this heading"></a></h1>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">awt_quant.portfolio.multi_factor_analysis.FactorConstructor.</span></span><span class="sig-name descname"><span class="pre">FactorConstructor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.start_date">
+<span class="sig-name descname"><span class="pre">start_date</span></span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.start_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.start_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.end_date">
+<span class="sig-name descname"><span class="pre">end_date</span></span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.end_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.end_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_HML">
+<span class="sig-name descname"><span class="pre">calculate_HML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.calculate_HML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_HML" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_SMB">
+<span class="sig-name descname"><span class="pre">calculate_SMB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.calculate_SMB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_SMB" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_MKT">
+<span class="sig-name descname"><span class="pre">calculate_MKT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.calculate_MKT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_MKT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_momentum">
+<span class="sig-name descname"><span class="pre">calculate_momentum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.calculate_momentum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_momentum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_volatility">
+<span class="sig-name descname"><span class="pre">calculate_volatility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.calculate_volatility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.calculate_volatility" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.get_all_factors">
+<span class="sig-name descname"><span class="pre">get_all_factors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#FactorConstructor.get_all_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.FactorConstructor.get_all_factors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="awt_quant.portfolio.multi_factor_analysis.FactorConstructor.start_date">
+<span class="sig-prename descclassname"><span class="pre">awt_quant.portfolio.multi_factor_analysis.FactorConstructor.</span></span><span class="sig-name descname"><span class="pre">start_date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2020-01-01'</span></em><a class="reference internal" href="../../../../../_modules/awt_quant/portfolio/multi_factor_analysis/FactorConstructor.html#start_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#awt_quant.portfolio.multi_factor_analysis.FactorConstructor.start_date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../DataCollector/index.html" class="btn btn-neutral float-left" title="awt_quant.portfolio.multi_factor_analysis.DataCollector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../KMeansClusterer/index.html" class="btn btn-neutral float-right" title="awt_quant.portfolio.multi_factor_analysis.KMeansClusterer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

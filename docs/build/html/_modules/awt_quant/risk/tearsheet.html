@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>awt_quant.risk.tearsheet &mdash; AWT-Quant 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            AWT-Quant
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AWT-Quant</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">awt_quant.risk.tearsheet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for awt_quant.risk.tearsheet</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yfinance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">yf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="c1"># Need to get real interest rate .</span>
+
+<div class="viewcode-block" id="compute_beta">
+<a class="viewcode-back" href="../../../autoapi/awt_quant/risk/tearsheet/index.html#awt_quant.risk.tearsheet.compute_beta">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_beta</span><span class="p">(</span><span class="n">portfolio_value_series</span><span class="p">,</span> <span class="n">ticker</span><span class="o">=</span><span class="s1">&#39;^GSPC&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the beta of the portfolio against a benchmark index.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    portfolio_value_series (pandas.Series): Time series data of portfolio values.</span>
+<span class="sd">    ticker (str): Ticker symbol of the benchmark index. Default is S&amp;P 500 (&#39;^GSPC&#39;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    float: Beta value of the portfolio.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure the portfolio series is a Pandas Series</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">portfolio_value_series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;portfolio_value_series must be a pandas Series&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate percent change for the portfolio</span>
+    <span class="n">portfolio_returns</span> <span class="o">=</span> <span class="n">portfolio_value_series</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="c1"># Check if the portfolio returns series is empty</span>
+    <span class="k">if</span> <span class="n">portfolio_returns</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The portfolio returns series is empty after percent change calculation.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Download S&amp;P500 data for the same date range as the portfolio</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">portfolio_returns</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">portfolio_returns</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">sp500_data</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">ticker</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">)[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="c1"># Ensure that both series have a common index</span>
+    <span class="n">common_dates</span> <span class="o">=</span> <span class="n">portfolio_returns</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">sp500_data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">portfolio_returns</span> <span class="o">=</span> <span class="n">portfolio_returns</span><span class="p">[</span><span class="n">common_dates</span><span class="p">]</span>
+    <span class="n">sp500_returns</span> <span class="o">=</span> <span class="n">sp500_data</span><span class="p">[</span><span class="n">common_dates</span><span class="p">]</span>
+
+    <span class="c1"># Calculate the beta</span>
+    <span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">portfolio_returns</span><span class="p">,</span> <span class="n">sp500_returns</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">sp500_returns</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">covariance</span> <span class="o">/</span> <span class="n">variance</span>
+
+    <span class="k">return</span> <span class="n">beta</span></div>
+
+<div class="viewcode-block" id="common_index">
+<a class="viewcode-back" href="../../../autoapi/awt_quant/risk/tearsheet/index.html#awt_quant.risk.tearsheet.common_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">common_index</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the common index values of two series.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    series1 (pandas.Series): The first series.</span>
+<span class="sd">    series2 (pandas.Series): The second series.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    pandas.Index: The common index values of the two series.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">series1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">series2</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="risk_tearSheet">
+<a class="viewcode-back" href="../../../autoapi/awt_quant/risk/tearsheet/index.html#awt_quant.risk.tearsheet.risk_tearSheet">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">risk_tearSheet</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_input</span><span class="o">=</span><span class="s1">&#39;2y&#39;</span><span class="p">,</span> <span class="n">risk_free_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">confidence_level</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">benchmark_ticker</span><span class="o">=</span><span class="s1">&#39;^GSPC&#39;</span><span class="p">):</span>
+    <span class="c1"># Determine the period for the analysis</span>
+    <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">time_input</span><span class="p">:</span>
+        <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span> <span class="o">=</span> <span class="n">time_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Handle ticker input for data</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span> <span class="k">if</span> <span class="n">start_date</span> <span class="k">else</span> <span class="n">time_input</span><span class="p">))[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Download benchmark data</span>
+    <span class="n">market_data</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">benchmark_ticker</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span> <span class="k">if</span> <span class="n">start_date</span> <span class="k">else</span> <span class="n">time_input</span><span class="p">))</span>
+    
+    <span class="n">market_returns</span> <span class="o">=</span> <span class="n">market_data</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="c1"># Calculate various metrics</span>
+    <span class="n">daily_returns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">annual_return</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="p">(</span><span class="mi">252</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">cumulative_returns</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">annual_volatility</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+    <span class="n">sharpe_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">daily_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">risk_free_rate</span> <span class="o">/</span> <span class="mi">252</span><span class="p">)</span> <span class="o">/</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+    <span class="n">rolling_max</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">cummax</span><span class="p">()</span>
+    <span class="n">drawdown</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">rolling_max</span><span class="p">)</span> <span class="o">/</span> <span class="n">rolling_max</span>
+    <span class="n">max_drawdown</span> <span class="o">=</span> <span class="n">drawdown</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="n">calmar_ratio</span> <span class="o">=</span> <span class="n">annual_return</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_drawdown</span><span class="p">)</span>
+    <span class="c1"># stability = np.exp(np.mean(np.log(1 + daily_returns))) - 1</span>
+    <span class="n">omega_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="n">downside_returns</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">sortino_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">annual_return</span> <span class="o">-</span> <span class="n">risk_free_rate</span> <span class="o">/</span> <span class="mi">252</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">downside_returns</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">252</span><span class="p">)</span>
+    <span class="n">skewness</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+    <span class="n">kurtosis</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">()</span>
+    <span class="n">tail_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">common_sense_ratio</span> <span class="o">=</span> <span class="n">annual_return</span> <span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_drawdown</span><span class="p">)</span>
+    <span class="n">gross_leverage</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">abs</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">daily_turnover</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">daily_returns</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">/</span> <span class="n">gross_leverage</span><span class="p">)</span>
+    <span class="n">semi_std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()])))</span>
+    <span class="n">standard_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">))</span>
+    <span class="n">var_99</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+    <span class="n">var_95</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+    <span class="n">ivar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;=</span> <span class="n">var_95</span><span class="p">])</span>
+    <span class="n">cvar</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;=</span> <span class="n">var_95</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">var_gaussian</span> <span class="o">=</span> <span class="o">-</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence_level</span><span class="p">,</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">daily_returns</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+
+    <span class="c1"># Calculate Beta and Alpha</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">compute_beta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ticker</span><span class="o">=</span><span class="n">benchmark_ticker</span><span class="p">)</span>
+    <span class="n">benchmark_annual_return</span> <span class="o">=</span> <span class="p">(</span><span class="n">market_returns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">market_returns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="p">(</span><span class="mi">252</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">market_returns</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">annual_return</span> <span class="o">-</span> <span class="p">(</span><span class="n">risk_free_rate</span> <span class="o">+</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">benchmark_annual_return</span> <span class="o">-</span> <span class="n">risk_free_rate</span><span class="p">))</span>
+
+    
+     <span class="c1"># Historical Volatility</span>
+    <span class="n">yearly_volatility</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">252</span><span class="p">)</span>
+    <span class="n">monthly_volatility</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+
+    <span class="c1"># Pain Gain Ratio</span>
+    <span class="n">gains</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">pains</span> <span class="o">=</span> <span class="o">-</span><span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">pain_gain_ratio</span> <span class="o">=</span> <span class="n">gains</span> <span class="o">/</span> <span class="n">pains</span>
+
+    <span class="c1"># Downside Deviation</span>
+    <span class="n">downside_returns</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">downside_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">downside_returns</span><span class="p">)))</span>
+
+    <span class="c1"># Upside Potential Ratio</span>
+    <span class="n">upside_returns</span> <span class="o">=</span> <span class="n">daily_returns</span><span class="p">[</span><span class="n">daily_returns</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">upside_potential_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">upside_returns</span><span class="p">)</span> <span class="o">/</span> <span class="n">downside_deviation</span>
+
+    <span class="c1"># Treynor Ratio</span>
+    <span class="n">treynor_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">annual_return</span> <span class="o">-</span> <span class="n">risk_free_rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">beta</span>
+
+    <span class="c1"># Tracking Error</span>
+    <span class="n">tracking_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">daily_returns</span> <span class="o">-</span> <span class="n">market_returns</span><span class="p">)))</span>
+
+    <span class="c1"># Information Ratio</span>
+    <span class="n">information_ratio</span> <span class="o">=</span> <span class="p">(</span><span class="n">annual_return</span> <span class="o">-</span> <span class="n">benchmark_annual_return</span><span class="p">)</span> <span class="o">/</span> <span class="n">tracking_error</span>
+
+    <span class="c1"># R-Squared</span>
+    <span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">daily_returns</span><span class="p">,</span> <span class="n">market_returns</span><span class="p">)</span>
+    <span class="n">r_squared</span> <span class="o">=</span> <span class="n">correlation_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+    
+    <span class="c1"># Maximum Drawdown Duration</span>
+    <span class="n">drawdown_end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">drawdown</span><span class="p">)</span>  <span class="c1"># End of the max drawdown period</span>
+    <span class="n">drawdown_start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">drawdown_end</span><span class="p">])</span>  <span class="c1"># Start of the max drawdown period</span>
+    <span class="n">max_drawdown_duration</span> <span class="o">=</span> <span class="n">drawdown_end</span> <span class="o">-</span> <span class="n">drawdown_start</span>
+    
+    <span class="c1"># Compile metrics</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Annual Return&#39;</span><span class="p">:</span> <span class="n">annual_return</span><span class="p">,</span>
+        <span class="s1">&#39;Cumulative Returns&#39;</span><span class="p">:</span> <span class="n">cumulative_returns</span><span class="p">,</span>
+        <span class="s1">&#39;Annual Volatility&#39;</span><span class="p">:</span> <span class="n">annual_volatility</span><span class="p">,</span>
+        <span class="s1">&#39;Sharpe Ratio&#39;</span><span class="p">:</span> <span class="n">sharpe_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Calmar Ratio&#39;</span><span class="p">:</span> <span class="n">calmar_ratio</span><span class="p">,</span>
+        <span class="c1"># &#39;Stability&#39;: stability,</span>
+        <span class="s1">&#39;Omega Ratio&#39;</span><span class="p">:</span> <span class="n">omega_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Sortino Ratio&#39;</span><span class="p">:</span> <span class="n">sortino_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Skewness&#39;</span><span class="p">:</span> <span class="n">skewness</span><span class="p">,</span>
+        <span class="s1">&#39;Kurtosis&#39;</span><span class="p">:</span> <span class="n">kurtosis</span><span class="p">,</span>
+        <span class="s1">&#39;Tail Ratio&#39;</span><span class="p">:</span> <span class="n">tail_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Common Sense Ratio&#39;</span><span class="p">:</span> <span class="n">common_sense_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Gross Leverage&#39;</span><span class="p">:</span> <span class="n">gross_leverage</span><span class="p">,</span>
+        <span class="s1">&#39;Daily Turnover&#39;</span><span class="p">:</span> <span class="n">daily_turnover</span><span class="p">,</span>
+        <span class="s1">&#39;Semi Standard Deviation&#39;</span><span class="p">:</span> <span class="n">semi_std_dev</span><span class="p">,</span>
+        <span class="s1">&#39;Standard Error&#39;</span><span class="p">:</span> <span class="n">standard_error</span><span class="p">,</span>
+        <span class="s1">&#39;VaR 99%&#39;</span><span class="p">:</span> <span class="n">var_99</span><span class="p">,</span>
+        <span class="s1">&#39;VaR 95%&#39;</span><span class="p">:</span> <span class="n">var_95</span><span class="p">,</span>
+        <span class="s1">&#39;IVaR&#39;</span><span class="p">:</span> <span class="n">ivar</span><span class="p">,</span>
+        <span class="s1">&#39;CVaR&#39;</span><span class="p">:</span> <span class="n">cvar</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s1">&#39;Gaussian VaR(</span><span class="si">{</span><span class="n">confidence_level</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">:</span> <span class="n">var_gaussian</span><span class="p">,</span>
+        <span class="s1">&#39;Max Drawdown&#39;</span><span class="p">:</span> <span class="n">max_drawdown</span><span class="p">,</span>
+        <span class="s1">&#39;Beta&#39;</span><span class="p">:</span> <span class="n">beta</span><span class="p">,</span>
+        <span class="s1">&#39;Alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span>
+    <span class="p">}</span>
+    <span class="c1"># Adding new metrics to the dictionary</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Yearly Volatility&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yearly_volatility</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Monthly Volatility&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">monthly_volatility</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Pain Gain Ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pain_gain_ratio</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Downside Deviation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">downside_deviation</span>
+    <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;Upside Potential Ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upside_potential_ratio</span>
+    
+    
+    <span class="c1"># Adding new metrics to the dictionary</span>
+    <span class="n">metrics</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+        <span class="s1">&#39;Treynor Ratio&#39;</span><span class="p">:</span> <span class="n">treynor_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;Tracking Error&#39;</span><span class="p">:</span> <span class="n">tracking_error</span><span class="p">,</span>
+        <span class="s1">&#39;Information Ratio&#39;</span><span class="p">:</span> <span class="n">information_ratio</span><span class="p">,</span>
+        <span class="s1">&#39;R-Squared&#39;</span><span class="p">:</span> <span class="n">r_squared</span><span class="p">,</span>
+        <span class="s1">&#39;Max Drawdown Duration&#39;</span><span class="p">:</span> <span class="n">max_drawdown_duration</span><span class="p">,</span>
+        <span class="c1"># &#39;Active Share&#39;: active_share,  # Uncomment when holdings data is available</span>
+    <span class="p">})</span>
+
+    
+    <span class="k">return</span> <span class="n">metrics</span></div>
+
+<span class="c1"># Example usage</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="data">
+<a class="viewcode-back" href="../../../autoapi/awt_quant/risk/tearsheet/index.html#awt_quant.risk.tearsheet.data">[docs]</a>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2020-01-01&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2023-01-01&#39;</span><span class="p">)[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span></div>
+
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">risk_tearSheet</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, William R. Astley, Pedro Gaissler, Nico Jacobs.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

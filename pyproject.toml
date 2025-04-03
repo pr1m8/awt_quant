@@ -39,7 +39,13 @@ torchaudio = { version = "2.6.0+cu118", source = "pytorch_cuda" }
 gluonts = "^0.14.4"
 huggingface_hub = "^0.29.1"
 wandb = "^0.19.7"
-
+sphinx-autobuild = "^2024.10.3"
+python-dotenv = "^1.0.1"
+autots = "^0.1.1"
+nixtlats = "^0.5.2"
+pandas-market-calendars = "^4.6.1"
+pmdarima = "^2.0.4"
+arch = "^7.2.0"
 [tool.poetry.extras]
 cpu = ["torch", "torchvision", "torchaudio"]
 cuda = ["torch", "torchvision", "torchaudio"]
