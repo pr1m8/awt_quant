@@ -60,3 +60,4 @@ autots
 nixtlats
 arch
 pandas-market-calendars
+pmdarima
