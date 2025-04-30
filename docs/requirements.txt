@@ -63,3 +63,4 @@ pandas-market-calendars
 pmdarima
 copulas 
 sphinx-copybutton
+myst-parser
