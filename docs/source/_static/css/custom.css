@@ -1,0 +1,172 @@
+/* Custom CSS for AWT Quant Documentation */
+
+/* Enhance code blocks for financial code */
+.highlight {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.highlight pre {
+    padding: 1rem;
+    line-height: 1.5;
+}
+
+/* Improve math equation rendering */
+.math {
+    overflow-x: auto;
+    padding: 0.5rem 0;
+}
+
+/* Custom admonitions for financial warnings and notes */
+.admonition.warning {
+    border-left-color: #ff9800;
+}
+
+.admonition.note {
+    border-left-color: #2196f3;
+}
+
+.admonition.tip {
+    border-left-color: #4caf50;
+}
+
+/* Custom class for financial metrics */
+.financial-metric {
+    background-color: #f8f9fa;
+    border-left: 3px solid #1a73e8;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Custom styles for API documentation */
+dl.class, dl.function, dl.method {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    background-color: var(--color-background-secondary);
+}
+
+dl.class > dt, dl.function > dt, dl.method > dt {
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0.5rem;
+    background-color: var(--color-background-hover);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* Parameter tables */
+table.docutils {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+}
+
+table.docutils th {
+    background-color: var(--color-background-hover);
+    text-align: left;
+    padding: 0.5rem;
+}
+
+table.docutils td {
+    padding: 0.5rem;
+    border-top: 1px solid var(--color-background-border);
+}
+
+/* Better typography for quantitative content */
+.section h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.section h2 {
+    font-size: 1.6rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.section h3 {
+    font-size: 1.3rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Improve tables for financial data */
+table.financial-data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+table.financial-data th {
+    background-color: #f1f3f4;
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #dadce0;
+}
+
+table.financial-data td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #dadce0;
+}
+
+table.financial-data tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Custom class for model equations */
+.model-equation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--color-background-secondary);
+    border-radius: 6px;
+    overflow-x: auto;
+}
+
+/* Improve mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .sidebar-drawer {
+        width: 85%;
+    }
+    
+    article {
+        padding: 1rem;
+    }
+    
+    .math {
+        font-size: 0.8rem;
+    }
+    
+    .highlight pre {
+        font-size: 0.85rem;
+    }
+}
+
+/* Dark mode refinements */
+@media (prefers-color-scheme: dark) {
+    table.financial-data th {
+        background-color: #3c4043;
+        border-bottom: 2px solid #5f6368;
+    }
+    
+    table.financial-data td {
+        border-bottom: 1px solid #5f6368;
+    }
+    
+    table.financial-data tr:hover {
+        background-color: #3c4043;
+    }
+    
+    .financial-metric {
+        background-color: #202124;
+    }
+}

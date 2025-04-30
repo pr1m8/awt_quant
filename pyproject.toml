@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "awt-quant"
-version = "0.1.0"
+version = "0.1.4"
 description = "Advanced Quantitative Forecasting with SPDE, GARCH, and LLMs"
 authors = [
     "William R. Astley <william.astley@algebraicwealth.com>",
