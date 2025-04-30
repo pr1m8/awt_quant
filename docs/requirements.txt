@@ -62,3 +62,4 @@ arch
 pandas-market-calendars
 pmdarima
 copulas 
+sphinx-copybutton
