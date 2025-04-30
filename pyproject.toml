@@ -47,6 +47,7 @@ pandas-market-calendars = "^4.6.1"
 pmdarima = "^2.0.4"
 arch = "^7.2.0"
 copulas = "^0.12.2"
+sphinx-copybutton = "^0.5.2"
 [tool.poetry.extras]
 cpu = ["torch", "torchvision", "torchaudio"]
 cuda = ["torch", "torchvision", "torchaudio"]
