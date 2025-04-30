@@ -64,3 +64,4 @@ pmdarima
 copulas 
 sphinx-copybutton
 myst-parser
+furo

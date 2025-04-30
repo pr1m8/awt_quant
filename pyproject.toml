@@ -49,6 +49,7 @@ arch = "^7.2.0"
 copulas = "^0.12.2"
 sphinx-copybutton = "^0.5.2"
 myst-parser = "^4.0.1"
+furo = "^2024.8.6"
 [tool.poetry.extras]
 cpu = ["torch", "torchvision", "torchaudio"]
 cuda = ["torch", "torchvision", "torchaudio"]
