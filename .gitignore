@@ -13,3 +13,4 @@ __pycache__
 resources/
 credentials.json
 src/haive/
+.history/
